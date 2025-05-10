@@ -1,0 +1,614 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Hind Siliguri", sans-serif;
+}
+
+/* Main Payment Form Styles */
+.payment-form-section {
+  padding: 20px 0;
+  margin-top: -50px;
+}
+
+.payment-form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  margin-top: 50px;
+}
+
+/* Updated Form Header Styles */
+.form-header-gradient {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.form-header-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.15),
+    transparent 70%
+  );
+}
+
+.header-content {
+  position: relative;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.title-icon {
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-icon i {
+  color: white;
+  font-size: 18px;
+}
+
+.header-title h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* New Logo Container */
+.header-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.form-header-logo {
+  height: 36px;
+  transition: transform 0.3s ease;
+}
+
+.form-header-logo:hover {
+  transform: scale(1.05);
+}
+
+/* Form Content */
+.payment-form {
+  padding: 20px;
+}
+
+/* Search Input Styling */
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 30px;
+  padding: 4px 15px;
+  border: 1px solid #ebebeb;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.search-input-wrapper:focus-within {
+  border-color: #1c2e58;
+  box-shadow: 0 3px 10px rgba(28, 46, 88, 0.1);
+  background-color: white;
+}
+
+.search-icon {
+  color: #999;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  font-size: 15px;
+  background-color: transparent;
+}
+
+.search-clear {
+  background: none;
+  border: none;
+  color: #bbb;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: all 0.2s;
+}
+
+.search-clear:hover {
+  opacity: 1;
+  color: #1c2e58;
+}
+
+/* Recent Merchants */
+.recent-merchants {
+  margin-bottom: 25px;
+}
+
+.recent-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.merchants-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+}
+
+.merchant-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.merchant-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  background-color: white;
+}
+
+.merchant-item.selected-merchant {
+  background-color: #fff5f8;
+  border: 1px solid rgba(28, 46, 88, 0.3);
+}
+
+.merchant-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 18px;
+}
+
+.merchant-avatar-large {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+}
+
+.merchant-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.merchant-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.merchant-number {
+  font-size: 12px;
+  color: #777;
+}
+
+/* Merchant Card */
+.merchant-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  border: none;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background-color: #ebebeb;
+  color: #333;
+}
+
+.merchant-details {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Amount Entry */
+.amount-entry-card {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.amount-label {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.amount-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  padding: 0 15px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.currency-symbol {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1c2e58;
+  padding-right: 5px;
+}
+
+.amount-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 15px 0;
+  font-size: 24px;
+  background-color: transparent;
+  color: #333;
+  font-weight: 600;
+}
+
+.amount-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #888;
+}
+
+/* Reference Section */
+.reference-section {
+  margin-bottom: 25px;
+}
+
+.reference-label {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.reference-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #333;
+  background-color: white;
+  transition: all 0.3s;
+}
+
+.reference-input:focus {
+  outline: none;
+  border-color: #1c2e58;
+  box-shadow: 0 0 0 2px rgba(28, 46, 88, 0.1);
+}
+
+/* Action Buttons */
+.action-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.next-btn {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  color: white;
+}
+
+.next-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(28, 46, 88, 0.2);
+}
+
+.payment-btn {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  color: white;
+}
+
+.payment-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(28, 46, 88, 0.2);
+}
+
+.payment-btn:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* PIN Entry Styling */
+.pin-digits {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.pin-digit {
+  width: 45px;
+  height: 50px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 18px;
+  text-align: center;
+  outline: none;
+  -webkit-text-security: disc;
+}
+
+/* Validation message styling */
+.validation-message {
+  color: #e74c3c;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px;
+  margin-top: 5px;
+  transition: opacity 0.3s;
+}
+
+.max-limit-note {
+  color: #e74c3c;
+  font-size: 12px;
+  text-align: center;
+  padding: 5px;
+  margin-top: 10px;
+  transition: opacity 0.3s;
+}
+
+/* Bootstrap Modal Customizations */
+.modal-content {
+  border-radius: 20px !important;
+  border: none !important;
+}
+
+.modal-body {
+  padding: 30px !important;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.shake-effect {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translateX(-4px);
+  }
+
+  40%,
+  60% {
+    transform: translateX(4px);
+  }
+}
+
+/* Ripple Effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, #fff 10%, transparent 11%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.5s, opacity 1s;
+}
+
+.ripple:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+/* Tab Content Transitions */
+.tab-content {
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Responsive Styles */
+@media (max-width: 500px) {
+  .payment-form-container {
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .header-content {
+    padding: 15px;
+  }
+
+  .header-title h3 {
+    font-size: 18px;
+  }
+
+  .form-header-logo {
+    height: 30px;
+  }
+
+  .title-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+body {
+  background-color: #f5f5f5;
+  padding-top: 60px;
+  color: #333;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Live Chat Button */
+.live-chat {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #1c2e58;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+  z-index: 100;
+}
+
+.live-chat:hover {
+  transform: translateY(-3px);
+}
+
+.live-chat i {
+  font-size: 18px;
+}

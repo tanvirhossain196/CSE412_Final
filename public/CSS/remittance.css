@@ -1,0 +1,720 @@
+/* Main Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Hind Siliguri", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  position: relative;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Remittance Section */
+.remittance-section {
+  height: 100vh;
+  padding: 60px 0;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.remittance-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 80vh;
+  z-index: 900;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Gradient Header */
+.form-header-gradient {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.form-header-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.15),
+    transparent 70%
+  );
+}
+
+.header-content {
+  position: relative;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.bkash-logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.back-button {
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.header-title h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Remittance Content */
+.remittance-content,
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Search Container */
+.search-container,
+.search-box {
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 4px 15px;
+  border: 1px solid #ebebeb;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  padding: 4px 15px;
+  border: 1px solid #ebebeb;
+  transition: all 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
+}
+
+.search-input-wrapper:focus-within {
+  border-color: #1c2e58;
+  box-shadow: 0 3px 10px rgba(226, 20, 108, 0.1);
+  background-color: white;
+}
+
+.search-icon {
+  color: #999;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  font-size: 15px;
+  background-color: transparent;
+}
+
+/* Option Cards */
+.option-cards {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.option-card {
+  flex: 1;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.option-icon {
+  margin-bottom: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.option-name {
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+/* Operators List */
+.operators-header,
+.operators-title {
+  padding: 10px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #666;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 10px;
+}
+
+.operators-list {
+  overflow-y: auto;
+}
+
+.operator-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #f5f5f5;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.operator-item:hover {
+  background-color: #f9f9f9;
+}
+
+.operator-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  overflow: hidden;
+  background-color: #f9f9f9;
+}
+
+.operator-logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.operator-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Country Popup Styles */
+.country-popup,
+.receipt-popup,
+.banking-popup,
+.pin-popup,
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 500px;
+  height: 80vh;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.country-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.country-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 15px;
+}
+
+.country-select-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.country-section {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  border: 1px solid #ebebeb;
+}
+
+.country-list {
+  max-height: 250px;
+  overflow-y: auto;
+  margin-top: 15px;
+  padding-right: 5px;
+}
+
+.country-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.country-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.country-list::-webkit-scrollbar-thumb {
+  background: #1c2e58;
+  border-radius: 10px;
+}
+
+.country-list::-webkit-scrollbar-thumb:hover {
+  background: #112555;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 5px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.country-item:hover {
+  background-color: #f0f0f0;
+}
+
+.country-item.selected {
+  background-color: #ffecf4;
+  border-radius: 6px;
+}
+
+.country-flag {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 15px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+  flex-shrink: 0;
+}
+
+.country-flag img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.country-name {
+  font-size: 16px;
+  color: #333;
+}
+
+.country-info {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.country-info p {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tap-link {
+  color: #1c2e58;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.operators-section {
+  flex: 1;
+}
+
+.empty-operators {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.empty-icon {
+  margin-bottom: 20px;
+}
+
+.globe-icon {
+  width: 80px;
+  height: 80px;
+  opacity: 0.6;
+}
+
+.empty-message {
+  font-size: 16px;
+  color: #999;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+/* Receipt Popup Styles */
+.receipt-content {
+  padding: 20px;
+}
+
+.receipt-content h5 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.receipt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.receipt-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  border: 1px solid #eee;
+}
+
+.receipt-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+.receipt-icon i {
+  font-size: 20px;
+}
+
+.receipt-details {
+  flex: 1;
+}
+
+.receipt-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.receipt-amount {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1c2e58;
+  margin-bottom: 3px;
+}
+
+.receipt-date {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Banking Popup Styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 15px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s;
+}
+
+.form-control:focus {
+  border-color: #1c2e58;
+  background-color: white;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(28, 46, 88, 0.1);
+}
+
+.btn-primary {
+  background-color: #1c2e58;
+  border-color: #1c2e58;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s;
+  width: 100%;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #112555;
+  border-color: #112555;
+}
+
+/* PIN Popup Styles */
+.pin-instruction {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.pin-instruction p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+}
+
+.pin-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.pin-digit {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 24px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: all 0.3s;
+}
+
+.pin-digit:focus {
+  border-color: #1c2e58;
+  background-color: white;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(28, 46, 88, 0.1);
+}
+
+/* Success Popup Styles */
+.success-content {
+  padding: 40px 20px;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.success-icon i {
+  font-size: 40px;
+}
+
+.success-content h4 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.success-content p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.transaction-details {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 16px;
+  color: #666;
+}
+
+.detail-value {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .country-popup,
+  .receipt-popup,
+  .banking-popup,
+  .pin-popup,
+  .success-popup {
+    border-radius: 0;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .remittance-container {
+    border-radius: 0;
+    height: 100vh;
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .option-cards {
+    flex-direction: row;
+  }
+
+  .option-card {
+    padding: 10px;
+  }
+
+  .option-icon {
+    font-size: 20px;
+  }
+
+  .option-name {
+    font-size: 12px;
+  }
+
+  .pin-inputs {
+    gap: 5px;
+  }
+
+  .pin-digit {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+}

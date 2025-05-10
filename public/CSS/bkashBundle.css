@@ -1,0 +1,1388 @@
+@import url("https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Hind Siliguri", sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Bundle Form Styles */
+.bundle-section {
+  padding: 20px 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f5f5;
+}
+
+.bundle-container {
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Gradient Header */
+.form-header-gradient {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  /* background-color: #1c2e58; */
+}
+
+.form-header-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: radial-gradient(
+    circle at top right,
+    rgba(255, 255, 255, 0.15),
+    transparent 70%
+  );
+}
+
+/* Updated Header Content with 3-section layout */
+.header-content {
+  position: relative;
+  padding: 18px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.header-logo {
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-logo i {
+  color: white;
+  font-size: 18px;
+}
+
+.header-title {
+  text-align: center;
+}
+
+.header-title h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Fixed bKash logo styles */
+.bkash-app-logo {
+  width: 50px;
+  height: 50px;
+  /* background-color: white; */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 4px;
+}
+
+.bkash-app-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Bundle Content Container */
+.bundle-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Bundle Form Content with scrollable area */
+.bundle-form {
+  padding: 20px;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1c2e58 #f5f5f5;
+}
+
+/* Custom scrollbar styling */
+.bundle-form::-webkit-scrollbar {
+  width: 6px;
+}
+
+.bundle-form::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.bundle-form::-webkit-scrollbar-thumb {
+  background-color: #1c2e58;
+  border-radius: 10px;
+}
+
+.bundle-form::-webkit-scrollbar-thumb:hover {
+  background-color: #1c2e58;
+}
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 36px;
+  background-color: rgba(28, 46, 88, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  opacity: 1;
+  z-index: 5;
+}
+
+.scroll-indicator:hover {
+  background-color: #1c2e58;
+  transform: translateX(-50%) translateY(-3px);
+}
+
+.scroll-indicator.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%) translateY(10px);
+}
+
+.scroll-indicator i {
+  font-size: 14px;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+  60% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Bundle Header Section */
+.bundle-header-section {
+  margin-bottom: 20px;
+}
+
+.bundle-header-section h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 15px 0 10px;
+}
+
+/* Empty Bundle Message */
+.empty-bundle-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 25px 20px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+.empty-bundle-icon {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(226, 20, 108, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.empty-bundle-icon i {
+  color: #1c2e58;
+  font-size: 24px;
+}
+
+.empty-bundle-message p {
+  font-size: 14px;
+  color: #666;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+/* Bundle Options List */
+.bundle-options-list {
+  margin-top: 10px;
+}
+
+.bundle-option {
+  margin-bottom: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.bundle-option:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.bundle-details {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.bundle-icon-container {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.bundle-icon-container.green {
+  background-color: #4caf50;
+}
+
+.bundle-icon-container.purple {
+  background-color: #9c27b0;
+}
+
+.bundle-icon-container.blue {
+  background-color: #2196f3;
+}
+
+.bundle-icon-container.orange {
+  background-color: #ff9800;
+}
+
+.bundle-icon-container.teal {
+  background-color: #009688;
+}
+
+.bundle-icon {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bkash-logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+}
+
+.bundle-info {
+  flex: 1;
+}
+
+.bundle-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.bundle-validity {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.savings-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(226, 20, 108, 0.1);
+  border-radius: 15px;
+  padding: 4px 8px;
+}
+
+.savings-badge i {
+  color: #1c2e58;
+  font-size: 10px;
+}
+
+.savings-badge span {
+  font-size: 11px;
+  color: #1c2e58;
+  font-weight: 500;
+}
+
+.bundle-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-right: 10px;
+}
+
+.bundle-action {
+  width: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.bundle-arrow {
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* Bundle Alternative Option */
+.bundle-alt-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: #f5f5f5;
+  border-top: 1px solid #ebebeb;
+  cursor: pointer;
+}
+
+.alt-option-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.alt-option-icon i {
+  color: #999;
+  font-size: 12px;
+}
+
+.alt-option-text {
+  flex: 1;
+  font-size: 13px;
+  color: #666;
+}
+
+.alt-option-arrow {
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* Tab Content Transitions */
+.tab-content {
+  transition: all 0.3s ease;
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Live Chat Button */
+.live-chat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #1c2e58;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(226, 20, 108, 0.3);
+  transition: all 0.3s;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.live-chat:hover {
+  background-color: #1c2e58;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(28, 46, 88, 0.3);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Chat Overlay */
+.bkash-chat-overlay {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 9999;
+  width: 350px;
+  height: 600px;
+  max-width: 100%;
+  max-height: 80vh;
+  transition: transform 0.3s ease-in-out, opacity 0.3s;
+  margin-left: 76%;
+}
+
+.bkash-chat-overlay.hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Chat Window */
+.bkash-chat-window {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  box-shadow: 0 -5px 30px rgba(0, 0, 0, 0.2);
+  background-color: #f5f5f5;
+}
+
+.bkash-chat-window.minimized {
+  height: 60px;
+}
+
+.bkash-chat-window.minimized .bkash-chat-body,
+.bkash-chat-window.minimized .bkash-chat-input {
+  display: none;
+}
+
+/* Chat Header */
+.bkash-chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  padding: 12px 15px;
+  color: white;
+}
+
+.bkash-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bkash-logo-container .bkash-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: contain;
+  padding: 2px;
+  background-color: white;
+}
+
+.bkash-logo-container span {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.minimize-btn,
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chat Body */
+.bkash-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  background-color: #f5f5f5;
+}
+
+/* Chat Messages */
+.chat-message {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 85%;
+}
+
+.bot .message-container {
+  align-items: flex-start;
+}
+
+.user .message-container {
+  align-items: flex-end;
+  margin-left: auto;
+}
+
+.message-bubble {
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.4;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2px;
+}
+
+.bot .message-bubble {
+  background-color: white;
+  color: #333;
+  border-bottom-left-radius: 5px;
+}
+
+.user .message-bubble {
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message-time {
+  font-size: 12px;
+  color: #999;
+  margin: 2px 0;
+}
+
+/* Language Options */
+.language-options {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.lang-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #1c2e58;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: #1c2e58;
+}
+
+.lang-btn.selected {
+  background-color: #1c2e58;
+  color: white;
+}
+
+.lang-btn:not(.selected) {
+  background-color: white;
+  color: #1c2e58;
+}
+
+.lang-btns {
+  padding: -1px 20px;
+  border-radius: 20px;
+  border: 1px solid #1c2e58;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: transparent;
+  color: #1c2e58;
+}
+
+.lang-btns.selected {
+  background-color: #1c2e58;
+  color: white;
+}
+
+.lang-btns:not(.selected) {
+  background-color: transparent;
+  color: white;
+}
+
+/* Chat Input Area */
+.bkash-chat-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background-color: white;
+  border-top: 1px solid #eee;
+}
+
+.input-wrapper {
+  flex: 1;
+  background-color: #f5f5f5;
+  border-radius: 25px;
+  overflow: hidden;
+}
+
+.message-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.send-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.send-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Typing Indicator */
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  column-gap: 4px;
+  padding: 12px 16px;
+  background-color: white;
+  border-radius: 18px;
+  border-bottom-left-radius: 5px;
+  width: fit-content;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+.typing-indicator span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background-color: #1c2e58;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: typing 1s infinite alternate;
+}
+
+.typing-indicator span:nth-child(1) {
+  animation-delay: 0ms;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: 200ms;
+}
+
+.typing-indicator span:nth-child(3) {
+  animation-delay: 400ms;
+}
+
+@keyframes typing {
+  0% {
+    transform: translateY(0px);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* Bundle Popup Styles */
+.bundle-popup-overlay,
+.pin-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.bundle-popup-overlay {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.pin-popup-overlay.centered-popup {
+  align-items: center;
+  justify-content: center;
+}
+
+.bundle-popup-overlay.active,
+.pin-popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.bundle-popup-content {
+  width: 100%;
+  max-width: 500px;
+  background-color: white;
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.pin-popup-content.centered-content {
+  width: 90%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.bundle-popup-overlay.active .bundle-popup-content {
+  transform: translateY(0);
+}
+
+.pin-popup-overlay.active .pin-popup-content.centered-content {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.bundle-popup-header,
+.pin-popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.popup-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.popup-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #999;
+  cursor: pointer;
+}
+
+.bundle-popup-details {
+  padding: 20px;
+}
+
+.bundle-popup-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.bundle-popup-icon {
+  margin-right: 15px;
+}
+
+.popup-bundle-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.popup-bundle-validity,
+.popup-bundle-price {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.popup-bundle-price {
+  font-weight: 600;
+  color: #1c2e58;
+}
+
+.bundle-popup-description {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.bundle-popup-description h4 {
+  font-size: 15px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.popup-bundle-feature,
+.popup-bundle-saving {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.popup-bundle-feature i,
+.popup-bundle-saving i {
+  color: #4caf50;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.popup-bundle-saving i {
+  color: #1c2e58;
+}
+
+.popup-bundle-terms {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #999;
+}
+
+.bundle-buy-btn {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 0 20px 20px;
+  padding: 15px;
+  background: linear-gradient(135deg, #1c2e58 0%, #112555 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(226, 20, 108, 0.2);
+}
+
+.bundle-buy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(226, 20, 108, 0.3);
+}
+
+/* Modern PIN Entry Styles */
+.pin-popup-content.centered-content {
+  width: 90%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pin-purchase-header {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: center;
+}
+
+.purchase-title {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.bundle-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.bundle-price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1c2e58;
+  margin-bottom: 5px;
+}
+
+.bundle-validity {
+  font-size: 13px;
+  color: #777;
+}
+
+.simple-pin-container {
+  padding: 20px;
+}
+
+.pin-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.pin-instruction {
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.simple-pin-digits {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.simple-pin-digit {
+  width: 50px;
+  height: 50px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 22px;
+  text-align: center;
+  outline: none;
+  -webkit-text-security: disc;
+  background-color: white;
+  transition: all 0.2s ease;
+}
+
+.simple-pin-digit.focused {
+  border-color: #1c2e58;
+  box-shadow: 0 0 0 2px rgba(226, 20, 108, 0.1);
+}
+
+.simple-pin-digit.filled {
+  border-color: #1c2e58;
+  background-color: rgba(226, 20, 108, 0.05);
+}
+
+.pin-forgot {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.pin-forgot a {
+  color: #1c2e58;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.pin-action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.pin-cancel-button,
+.pin-confirm-button {
+  flex: 1;
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pin-cancel-button {
+  background-color: #f5f5f5;
+  color: #555;
+}
+
+.pin-cancel-button:hover {
+  background-color: #eee;
+}
+
+.pin-confirm-button {
+  background-color: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.pin-confirm-button.active {
+  background-color: #1c2e58;
+  color: white;
+  cursor: pointer;
+}
+
+.pin-confirm-button.active:hover {
+  background-color: #112555;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(226, 20, 108, 0.2);
+}
+
+/* bKash App Header Styles */
+.bkash-app-header {
+  background-color: #1c2e58;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.bkash-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bkash-logo-circle {
+  width: 32px;
+  height: 32px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bkash-logo-circle i {
+  font-size: 16px;
+}
+
+.bkash-header-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+/* User info section styles */
+.user-recharge-info {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: white;
+}
+
+/* Success Message Styles */
+.success-message {
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.success-icon {
+  margin: 0 auto 20px;
+  width: 70px;
+  height: 70px;
+  background-color: rgba(76, 175, 80, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-icon i {
+  color: #4caf50;
+  font-size: 40px;
+}
+
+.success-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.success-amount {
+  font-size: 26px;
+  font-weight: 700;
+  color: #1c2e58;
+  margin-bottom: 20px;
+}
+
+.success-details {
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 25px;
+  text-align: left;
+  border: 1px solid #f0f0f0;
+}
+
+.success-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.success-detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  color: #666;
+  font-size: 14px;
+}
+
+.detail-value {
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+  word-break: break-word;
+  text-align: right;
+  max-width: 60%;
+}
+
+.success-close-btn {
+  padding: 14px 50px;
+  background-color: #1c2e58;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(226, 20, 108, 0.2);
+}
+
+.success-close-btn:hover {
+  background-color: #1c2e58;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(226, 20, 108, 0.3);
+}
+
+/* Other Button Styles */
+.highlight-effect {
+  background-color: rgba(226, 20, 108, 0.05) !important;
+  transition: background-color 0.3s ease;
+}
+
+.see-more-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  margin: 10px 0;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #1c2e58;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.see-more-btn span {
+  margin-right: 5px;
+}
+
+.see-more-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.fade-in {
+  animation: fadeInAnimation 0.5s ease forwards;
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ripple effect */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.7);
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  animation: ripple-animation 0.6s ease-out;
+  opacity: 0;
+}
+
+@keyframes ripple-animation {
+  0% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .bundle-container {
+    height: 85vh;
+  }
+
+  .bkash-chat-overlay {
+    height: 90vh;
+    max-height: none;
+  }
+}
+
+@media (max-width: 500px) {
+  .bundle-container {
+    height: 100vh;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .bkash-chat-overlay {
+    height: 100vh;
+    max-height: none;
+  }
+
+  .bkash-chat-window {
+    border-radius: 0;
+  }
+
+  .live-chat {
+    bottom: 15px;
+    right: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 375px) {
+  .bundle-details {
+    padding: 12px 10px;
+  }
+
+  .bundle-icon-container {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .bundle-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .bundle-name {
+    font-size: 14px;
+  }
+
+  .bundle-price {
+    font-size: 14px;
+  }
+}
