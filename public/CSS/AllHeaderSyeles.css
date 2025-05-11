@@ -58,14 +58,15 @@
 
 .nav {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   align-items: center;
+  margin-left: -100px;
 }
 
 .nav-item {
   color: white;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   white-space: nowrap;
 }
