@@ -6,8 +6,9 @@
   padding: 0;
   position: relative;
   overflow: hidden;
-  height: 400px; /* Increased height */
+  height: 500px; /* Increased height */
   width: 100%;
+  margin-bottom:30px ;
 }
 
 .hero-content {
