@@ -96,7 +96,9 @@ a {
 }
 
 .content-text {
-  margin-bottom: 40px;
+  margin-bottom: 60px;
+  margin-top: 50px;
+  
 }
 
 .content-text p {
@@ -109,7 +111,7 @@ a {
   background-color: #fff5f8;
   border-radius: var(--radius-md);
   padding: 30px;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .warning-title {
@@ -435,7 +437,7 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 20px 25px;
-    background-color: #e2146c;
+    background-color: #1c2e58;
     color: white;
     position: sticky;
     top: 0;
@@ -479,7 +481,7 @@ a {
 }
 
 .terms-content h3 {
-    color: #e2146c;
+    color: #1c2e58;
     font-size: 1.5rem;
     margin-top: 0;
     margin-bottom: 20px;
@@ -487,7 +489,7 @@ a {
 }
 
 .terms-content h4 {
-    color: #e2146c;
+    color: #1c2e58;
     font-size: 1.2rem;
     margin-top: 30px;
     margin-bottom: 15px;
@@ -506,7 +508,7 @@ a {
     padding: 20px;
     background-color: #fff5f8;
     border-radius: 8px;
-    border-left: 4px solid #e2146c;
+    border-left: 4px solid #1c2e58;
 }
 
 .terms-footer p {
@@ -546,12 +548,12 @@ a {
 }
 
 .popup-body::-webkit-scrollbar-thumb {
-    background: #e2146c;
+    background: #1c2e58;
     border-radius: 5px;
 }
 
 .popup-body::-webkit-scrollbar-thumb:hover {
-    background: #c01259;
+    background: #1c2e58;
 }
 
 /* Mobile Responsive */
@@ -607,7 +609,7 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 20px 25px;
-    background-color: #e2146c;
+    background-color: #1c2e58;
     color: white;
     position: sticky;
     top: 0;
@@ -652,12 +654,12 @@ a {
 }
 
 .offer-content h3 {
-    color: #e2146c;
+    color: #1c2e58;
     font-size: 1.4rem;
     margin-top: 30px;
     margin-bottom: 20px;
     font-weight: 600;
-    border-bottom: 2px solid #e2146c;
+    border-bottom: 2px solid #1c2e58;
     padding-bottom: 8px;
     display: inline-block;
 }
@@ -701,7 +703,7 @@ a {
 
 .section-header {
     background-color: #fff5f8;
-    color: #e2146c;
+    color: #1c2e58;
     font-weight: 600;
     text-align: center;
 }
@@ -712,7 +714,7 @@ a {
 }
 
 .total-row td {
-    border-top: 2px solid #e2146c;
+    border-top: 2px solid #1c2e58;
 }
 
 /* Bullet Points Styles */
@@ -730,7 +732,7 @@ a {
 
 .bullet-points li::before {
     content: "•";
-    color: #e2146c;
+    color: #1c2e58;
     font-size: 18px;
     position: absolute;
     left: -15px;
@@ -741,7 +743,7 @@ a {
     background-color: #fff5f8;
     padding: 15px;
     border-radius: 8px;
-    border-left: 4px solid #e2146c;
+    border-left: 4px solid #1c2e58;
     font-style: italic;
     margin: 20px 0;
 }
@@ -789,12 +791,12 @@ a {
 }
 
 .popup-body::-webkit-scrollbar-thumb {
-    background: #e2146c;
+    background: #1c2e58;
     border-radius: 5px;
 }
 
 .popup-body::-webkit-scrollbar-thumb:hover {
-    background: #c01259;
+    background: #1c2e58;
 }
 
 /* Mobile Responsive */
@@ -851,7 +853,7 @@ a {
     justify-content: space-between;
     align-items: center;
     padding: 20px 25px;
-    background-color: #e2146c;
+    background-color: #1c2e58;
     color: white;
     position: sticky;
     top: 0;
@@ -917,7 +919,7 @@ a {
 }
 
 .question-number {
-    color: #e2146c;
+    color: #1c2e58;
     margin-right: 8px;
     font-weight: 700;
 }
@@ -929,7 +931,7 @@ a {
 }
 
 .answer-label {
-    color: #e2146c;
+    color: #1c2e58;
     font-weight: 600;
     margin-right: 8px;
 }
@@ -986,7 +988,7 @@ a {
 
 /* Links in Answer */
 .faq-answer a {
-    color: #e2146c;
+    color: #1c2e58;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -1028,18 +1030,18 @@ a {
 }
 
 .popup-body::-webkit-scrollbar-thumb {
-    background: #e2146c;
+    background: #1c2e58;
     border-radius: 5px;
 }
 
 .popup-body::-webkit-scrollbar-thumb:hover {
-    background: #c01259;
+    background: #1c2e58;
 }
 
 /* Highlight Effect */
 .highlight {
     background-color: #fff5f8;
-    border-left: 3px solid #e2146c;
+    border-left: 3px solid #1c2e58;
     padding-left: 22px;
     transition: all 0.3s ease;
 }
@@ -1069,3 +1071,5 @@ a {
         font-size: 14px;
     }
 }
+
+
