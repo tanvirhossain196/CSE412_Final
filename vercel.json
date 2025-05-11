@@ -1,6 +1,9 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/View/index.html" },
-    { "source": "/:file*.html", "destination": "/View/:file*.html" }
+  "version": 2,
+  "public": true,
+  "builds": [{ "src": "public/**/*", "use": "@vercel/static" }],
+  "routes": [
+    { "src": "/(.*)", "dest": "/public/View/$1" },
+    { "src": "/", "dest": "/public/View/index.html" }
   ]
 }
