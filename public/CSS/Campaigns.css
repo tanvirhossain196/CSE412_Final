@@ -316,6 +316,7 @@ main {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 40px;
+  margin-top: 30px;
 }
 
 .footer-info {
@@ -323,8 +324,8 @@ main {
 }
 
 .footer-logo img {
-  height: 50px;
-  margin-bottom: 20px;
+  height: 80px;
+  margin-bottom: 0;
 }
 
 .footer-description {

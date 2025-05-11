@@ -20,6 +20,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="/public/CSS/styles.css">
     <link rel="stylesheet" href="/public/CSS/chat.css">
+    <link rel="stylesheet" href="/public/CSS/campaingsDesign.css">
 </head>
 
 <body>
@@ -47,116 +48,140 @@
         </div>
     </header>
 
-    <main class="container">
-        <section class="search-container">
-            <h1 class="search-title">অফার খুঁজুন</h1>
-            <div class="search-box">
-                <input type="text" class="search-input" placeholder="কী ওয়ার্ড দিয়ে খুঁজুন">
-                <button class="search-button"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="popular-searches">
-                <div class="search-tag">জনপ্রিয় অনুসন্ধান:</div>
-                <div class="search-tag">টিকেট টু ট্রাভেলিং, SurePay পেমেন্ট EVERYTHING</div>
-                <div class="search-tag">অনলাইনে পেমেন্ট</div>
-                <div class="search-tag">ট্রাভেল</div>
-                <div class="search-tag">পেমেন্ট</div>
-                <div class="search-tag">মোবাইল রিচার্জ</div>
-                <div class="search-tag">ফুড ডেলিভারি</div>
-                <div class="search-tag">মাইক্রোফাইন্যান্স</div>
-                <div class="search-tag">ক্রেডিট কার্ড</div>
-                <div class="search-tag">ইনস্যুরেন্স</div>
-                <div class="search-tag">ক্যাশ আউট</div>
-                <div class="search-tag">রেমিটেন্স</div>
-                <div class="search-tag">ওয়েভিং</div>
-                <div class="search-tag">এডুকেশন ফি</div>
-            </div>
-        </section>
 
-        <section class="offer-section">
-            <h2 class="section-title">টিকেট টু ট্রাভেলিং, SurePay পেমেন্ট EVERYTHING</h2>
-            <div class="offer-container split-layout">
-                <div class="offer-text-side">
-                    <p class="offer-description">হাচ্ছেন্দা মোবাইলিতে টিকেট টু ট্রাভেলিং, SurePay পেমেন্ট EVERYTHING.
+
+    <div class="min-h-screen bg-gray-50">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-pattern"></div>
+            <div class="container mx-auto px-4 py-20 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center hero-badge animate-pulse">
+                        <i data-lucide="bell" class="h-4 w-4 text-yellow-400 mr-2"></i>
+                        <span class="text-sm font-medium">নতুন ক্যাম্পেইন চালু হয়েছে</span>
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                        এক্সক্লুসিভ <span class="text-yellow-400">ক্যাম্পেইন</span>
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+                        বিশেষ অফার এবং পুরস্কার জিতুন SurePay এর সাথে। আপনার ব্যাংকিং আরও সহজ এবং লাভজনক করুন।
                     </p>
-                    <a href="#" class="more-offers-btn">আরো অফার দেখুন</a>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="scrollToCampaigns()" class="hero-button-primary">
+                            <i data-lucide="trophy" class="h-5 w-5 mr-2"></i>
+                            সব ক্যাম্পেইন দেখুন
+                        </button>
+                        <button onclick="setActiveTab('upcoming')" class="hero-button-secondary">
+                            আসন্ন ক্যাম্পেইন
+                        </button>
+                    </div>
                 </div>
-                <div class="offer-image-side">
-                    <img src="/public/images/camp/Camp1.jpg" alt="বিকাশ পেমেন্ট প্রমোশন ব্যানার" class="banner">
+            </div>
+            <div class="hero-gradient-bottom"></div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-8 -mt-10 relative z-20">
+            <div class="container mx-auto px-4">
+                <div class="stats-container">
+                    <div class="text-center">
+                        <div class="text-blue-600 mb-2 flex justify-center">
+                            <i data-lucide="users" class="h-8 w-8"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">১০M+</p>
+                        <p class="text-gray-600">সক্রিয় ব্যবহারকারী</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-600 mb-2 flex justify-center">
+                            <i data-lucide="trending-up" class="h-8 w-8"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">৳৫০০B+</p>
+                        <p class="text-gray-600">মাসিক লেনদেন</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-600 mb-2 flex justify-center">
+                            <i data-lucide="award" class="h-8 w-8"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">৯৮%</p>
+                        <p class="text-gray-600">সন্তুষ্টির হার</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-blue-600 mb-2 flex justify-center">
+                            <i data-lucide="clock" class="h-8 w-8"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-gray-900">২৪/৭</p>
+                        <p class="text-gray-600">কাস্টমার সাপোর্ট</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="offer-section">
-            <h2 class="section-title">অনলাইন পেমেন্ট</h2>
-            <div class="offer-container split-layout">
-                <div class="offer-text-side">
-                    <p class="offer-description">অনলাইন কেনার বেশি বেশি সেনাকাটার পেমেন্ট করুন SurePay-এ আর উপভোগ করুন
-                        দারুণ সব অফার, ক্যাশব্যাক বা ডিসকাউন্ট!</p>
-                    <a href="#" class="more-offers-btn">আরো অফার দেখুন</a>
-                </div>
-                <div class="offer-image-side">
-                    <img src="/public/images/camp/Camp2.jpg" alt="টেন মিনিট স্কুল প্রমোশন" class="banner">
-                </div>
-            </div>
-        </section>
-
-        <section class="offer-section">
-            <div class="two-columns">
-                <div class="offer-card split-layout">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Mana Bay-তে ঘুরে আসুন অফারে</h3>
-                        <p class="offer-description">Mana Bay-তে SurePay পেমেন্টে প্রতি টিকেটে ৩০% অফার</p>
-                    </div>
-                    <div class="offer-image-wrapper">
-                        <img src="/public/images/camp/Camp3.jpg" alt="Mana Bay অফার" class="offer-image">
-                    </div>
-                </div>
-                <div class="offer-card split-layout">
-                    <div class="offer-content">
-                        <h3 class="offer-title">SurePay পেমেন্টে কমফিট চার</h3>
-                        <p class="offer-description">৬০% পর্যন্ত কম খরচে টাওয়ার টিকেট ও হোটেল বুকিং</p>
-                    </div>
-                    <div class="offer-image-wrapper">
-                        <img src="/public/images/camp/Camp4.jpg" alt="কমফিট টাওয়ার" class="offer-image">
-                    </div>
+        <!-- Campaign Tabs -->
+        <section class="py-8" id="campaigns">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-center space-x-4">
+                    <button onclick="setActiveTab('current')" class="tab-button active" data-tab="current">
+                        <i data-lucide="clock" class="h-5 w-5"></i>
+                        <span>চলমান ক্যাম্পেইন</span>
+                        <span class="tab-badge">6</span>
+                    </button>
+                    <button onclick="setActiveTab('upcoming')" class="tab-button" data-tab="upcoming">
+                        <i data-lucide="calendar" class="h-5 w-5"></i>
+                        <span>আসন্ন ক্যাম্পেইন</span>
+                        <span class="tab-badge">3</span>
+                    </button>
+                    <button onclick="setActiveTab('past')" class="tab-button" data-tab="past">
+                        <i data-lucide="trophy" class="h-5 w-5"></i>
+                        <span>বিগত ক্যাম্পেইন</span>
+                        <span class="tab-badge">12</span>
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section class="offer-section">
-            <h2 class="section-title">পেমেন্ট</h2>
-            <div class="offer-container split-layout">
-                <div class="offer-text-side">
-                    <p class="offer-description">হেলোক্যাশ! SurePay পেমেন্ট করতেই পাচ্ছেন দারুণ অফার</p>
-                    <a href="#" class="more-offers-btn">আরো অফার দেখুন</a>
-                </div>
-                <div class="offer-image-side">
-                    <img src="/public/images/camp/Camp5.jpg" alt="Walton থেকে অফার" class="banner">
+        <!-- Campaigns Display -->
+        <section class="py-8">
+            <div class="container mx-auto px-4">
+                <div id="campaigns-grid" class="campaigns-grid">
+                    <!-- Campaigns will be rendered here by JavaScript -->
                 </div>
             </div>
+        </section>
 
-            <div class="two-columns">
-                <div class="offer-card split-layout">
-                    <div class="offer-content">
-                        <h3 class="offer-title">গাজেদের গ্যাজেটস কিনুন বাজেটে</h3>
-                        <p class="offer-description">Dazzle থেকে SurePay পেমেন্টে ক্যাশব্যাক হবে ৬০০ পর্যন্ত</p>
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center newsletter-badge">
+                        <i data-lucide="bell" class="h-4 w-4 text-yellow-400 mr-2"></i>
+                        <span class="text-sm font-medium">আপডেট পান সবার আগে</span>
                     </div>
-                    <div class="offer-image-wrapper">
-                        <img src="/public/images/camp/Camp6.jpg" alt="Dazzle গ্যাজেটস" class="offer-image">
-                    </div>
-                </div>
-                <div class="offer-card split-layout">
-                    <div class="offer-content">
-                        <h3 class="offer-title">Avante-তে সাশ্রয়ী অফার</h3>
-                        <p class="offer-description">এক্সপার্ট সার্ভিসের বিনিময়ে দিন SurePay পেমেন্ট</p>
-                    </div>
-                    <div class="offer-image-wrapper">
-                        <img src="/public/images/camp/camp7.jpg" alt="Avante স্পা" class="offer-image">
+                    <h2 class="text-3xl font-bold mb-4">নিউজলেটার সাবস্ক্রাইব করুন</h2>
+                    <p class="text-gray-300 mb-8">নতুন ক্যাম্পেইন এবং বিশেষ অফার সম্পর্কে প্রথম জানুন</p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center max-w-lg mx-auto">
+                        <input type="email" placeholder="আপনার ইমেইল ঠিকানা" class="newsletter-input">
+                        <button class="newsletter-button">সাবস্ক্রাইব</button>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
+    </div>
+
+    <!-- Campaign Modal -->
+    <div id="campaign-modal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Modal content will be rendered by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Application Modal -->
+    <div id="application-modal" class="modal-overlay">
+        <div class="modal-content">
+            <!-- Application content will be rendered by JavaScript -->
+        </div>
+    </div>
+
+    
 
     <!-- Footer HTML -->
     <footer class="bkash-footer">
@@ -172,7 +197,7 @@
                     করে
                 </p>
             </div>
-    
+
             <!-- App Download -->
             <!-- <div class="footer-app-download">
                     <h3 class="footer-heading">SurePay অ্যাপ ডাউনলোড করুন</h3>
@@ -185,7 +210,7 @@
                         </a>
                     </div>
                 </div> -->
-    
+
             <!-- Footer Links -->
             <div class="footer-links-grid">
                 <!-- Column 1: Services -->
@@ -197,7 +222,7 @@
                         <li><a href="#">কনটেন্ট সেল</a></li>
                     </ul>
                 </div>
-    
+
                 <!-- Column 2: Company -->
                 <div class="footer-links-column">
                     <h4 class="footer-column-title">কোম্পানি</h4>
@@ -207,7 +232,7 @@
                         <li><a href="#">ক্যারিয়ার</a></li>
                     </ul>
                 </div>
-    
+
                 <!-- Column 3: Banking -->
                 <div class="footer-links-column">
                     <h4 class="footer-column-title">ব্যাংকা</h4>
@@ -217,7 +242,7 @@
                         <li><a href="#">ডিজিটাল বেতন</a></li>
                     </ul>
                 </div>
-    
+
                 <!-- Column 4: Other -->
                 <div class="footer-links-column">
                     <h4 class="footer-column-title">অন্যান্য</h4>
@@ -227,7 +252,7 @@
                         <li><a href="#">নিরাপত্তা পরামর্শ</a></li>
                     </ul>
                 </div>
-    
+
                 <!-- Column 5: Certifications -->
                 <div class="footer-links-column">
                     <h4 class="footer-column-title">সিকিউরিটি ও কমপ্লায়েন্স সার্টিফিকেটসমূহ</h4>
@@ -237,7 +262,7 @@
                     </div>
                 </div>
             </div>
-    
+
             <!-- Copyright and Social -->
             <div class="footer-bottom">
                 <div class="copyright-text">
@@ -315,6 +340,8 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <!-- Custom Chat JS -->
     <script src="/public/JS/chatJS.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/public/JS/campaingsDesignJS.js"></script>
 </body>
 
 </html>
