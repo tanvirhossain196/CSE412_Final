@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [{ "src": "**/*", "use": "@vercel/static" }],
   "routes": [
-    { "handle": "filesystem" },
     { "src": "/", "dest": "/View/index.html" },
-    { "src": "/index.html", "dest": "/View/index.html" },
-    { "src": "/public/(.*)", "dest": "/public/$1" },
-    { "src": "/(.*)\\.html", "dest": "/View/$1.html" }
+    { "src": "/(.+\\.html)", "dest": "/View/$1" },
+    { "src": "/public/CSS/(.*)", "dest": "/CSS/$1" },
+    { "src": "/public/JS/(.*)", "dest": "/JS/$1" },
+    { "src": "/public/images/(.*)", "dest": "/images/$1" }
   ]
 }
