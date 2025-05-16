@@ -53,6 +53,16 @@ a {
   padding-top: 40px; /* Increased padding to move content down from nav */
 }
 
+.nav-item {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+  white-space: nowrap;
+  
+}
+
+
 .hero-section {
   padding: 40px 0;
 }
