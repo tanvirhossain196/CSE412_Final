@@ -1164,3 +1164,102 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("scroll", handleParallax);
 });
+
+// Responsive Header and Sidebar JavaScript
+document.addEventListener("DOMContentLoaded", function () {
+  // Elements
+  const menuToggle = document.getElementById("menuToggle");
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebarOverlay");
+  const sidebarClose = document.getElementById("sidebarClose");
+  const balanceToggle = document.getElementById("balanceToggle");
+  const balancePopup = document.getElementById("balancePopup");
+  const userProfile = document.getElementById("userProfile");
+
+  // Toggle sidebar
+  if (menuToggle) {
+    menuToggle.addEventListener("click", function () {
+      sidebar.classList.add("active");
+      sidebarOverlay.classList.add("active");
+      document.body.style.overflow = "hidden"; // Prevent scrolling when sidebar is open
+    });
+  }
+
+  // Close sidebar
+  if (sidebarClose) {
+    sidebarClose.addEventListener("click", closeSidebar);
+  }
+
+  if (sidebarOverlay) {
+    sidebarOverlay.addEventListener("click", closeSidebar);
+  }
+
+  function closeSidebar() {
+    sidebar.classList.remove("active");
+    sidebarOverlay.classList.remove("active");
+    document.body.style.overflow = ""; // Re-enable scrolling
+  }
+
+  // Toggle balance popup
+  if (balanceToggle) {
+    balanceToggle.addEventListener("click", function (e) {
+      e.stopPropagation();
+      balancePopup.classList.toggle("show");
+    });
+  }
+
+  // Close popups when clicking outside
+  document.addEventListener("click", function (e) {
+    // Close balance popup if clicking outside
+    if (balancePopup && balancePopup.classList.contains("show")) {
+      if (!balancePopup.contains(e.target) && e.target !== balanceToggle) {
+        balancePopup.classList.remove("show");
+      }
+    }
+  });
+
+  // Responsive adjustments for window resize
+  window.addEventListener("resize", function () {
+    const width = window.innerWidth;
+
+    // Close sidebar on resize to desktop if needed
+    if (width > 1200) {
+      if (sidebar && sidebar.classList.contains("active")) {
+        closeSidebar();
+      }
+    }
+  });
+
+  // Enhanced sidebar menu interactions
+  const sidebarMenuItems = document.querySelectorAll(".sidebar-menu-item");
+
+  sidebarMenuItems.forEach((item) => {
+    item.addEventListener("click", function () {
+      // Handle active state if needed
+      // sidebarMenuItems.forEach(i => i.classList.remove('active'));
+      // item.classList.add('active');
+
+      // If it has a submenu, toggle it
+      const submenu = item.querySelector(".submenu");
+      if (submenu) {
+        submenu.classList.toggle("active");
+        return;
+      }
+
+      // Otherwise close the sidebar on mobile
+      if (window.innerWidth <= 992) {
+        closeSidebar();
+      }
+    });
+  });
+
+  // Language toggle
+  const languageButtons = document.querySelectorAll(".language-btn");
+
+  languageButtons.forEach((button) => {
+    button.addEventListener("click", function () {
+      languageButtons.forEach((btn) => btn.classList.remove("active"));
+      this.classList.add("active");
+    });
+  });
+});
