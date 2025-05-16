@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Enhanced Job Search Functionality
+  // Enhanced Job Search Functionality with improved department filtering
   const searchInput = document.querySelector(".search-bar input");
   const departmentSelect = document.querySelector('select[name="department"]');
   const locationSelect = document.querySelector('select[name="location"]');
@@ -117,6 +117,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultsCountElement = document.getElementById("results-count");
   const searchResultsStats = document.querySelector(".search-results-stats");
   const filteringTips = document.querySelector(".filtering-tips");
+  const jobOpportunitiesSection = document.querySelector(".job-opportunities");
+
+  // Update the job opportunities section background color
+  if (jobOpportunitiesSection) {
+    // Set a medium blue color that's not too dark
+    jobOpportunitiesSection.style.backgroundColor = "#3959a5";
+  }
 
   // All job data
   const allJobs = [
@@ -348,7 +355,105 @@ document.addEventListener("DOMContentLoaded", function () {
   let filteredJobs = [...allJobs];
   let isShowingAll = false;
 
-  // Initially render only the first 4 jobs
+  // Enhanced job filtering function - Improved for department-wise filtering
+  function filterJobs() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const department = departmentSelect.value.toLowerCase();
+    const location = locationSelect.value.toLowerCase();
+    const jobType = jobTypeSelect.value.toLowerCase();
+
+    // Apply all filters - more explicit filtering to ensure correct matching
+    filteredJobs = allJobs.filter((job) => {
+      // Check if department matches - the key part for department filtering
+      const matchesDepartment = department === "" || 
+        job.department.toLowerCase() === department;
+
+      // Check other filter criteria
+      const matchesLocation = location === "" || 
+        job.location.toLowerCase() === location;
+        
+      const matchesJobType = jobType === "" || 
+        job.type.toLowerCase() === jobType;
+        
+      const matchesSearch = searchTerm === "" || 
+        job.title.toLowerCase().includes(searchTerm) || 
+        job.description.toLowerCase().includes(searchTerm);
+
+      // Job must match ALL selected filters
+      return matchesSearch && matchesDepartment && matchesLocation && matchesJobType;
+    });
+
+    // Add visual highlighting for the filtered department
+    if (department) {
+      // Add a class to the job listings container for styling
+      jobListingsContainer.setAttribute("data-filtered-department", department);
+      
+      // Log the filtered jobs count for debugging
+      console.log(`Found ${filteredJobs.length} jobs in ${department} department`);
+    } else {
+      jobListingsContainer.removeAttribute("data-filtered-department");
+    }
+
+    // Reset visible jobs count to initial value after filtering
+    visibleJobsCount = initialJobsCount;
+    isShowingAll = false;
+
+    // Render the filtered jobs
+    renderJobs();
+    
+    // Update results count text
+    if (searchResultsStats && resultsCountElement) {
+      if (filteredJobs.length > 0) {
+        searchResultsStats.style.display = "block";
+        resultsCountElement.textContent = filteredJobs.length;
+        
+        // Add department name to results if filtering by department
+        const statsText = searchResultsStats.querySelector("p");
+        if (statsText) {
+          if (department) {
+            const departmentName = departmentSelect.options[departmentSelect.selectedIndex].text;
+            statsText.innerHTML = `<span id="results-count">${filteredJobs.length}</span> টি <strong>${departmentName}</strong> বিভাগের চাকরির সুযোগ পাওয়া গেছে`;
+          } else {
+            statsText.innerHTML = `<span id="results-count">${filteredJobs.length}</span> টি চাকরির সুযোগ পাওয়া গেছে`;
+          }
+        }
+      } else {
+        searchResultsStats.style.display = "none";
+      }
+    }
+
+    // Update filtering tips visibility
+    updateFilteringTipsVisibility();
+    
+    // Add visual feedback when filtering
+    highlightActiveFilters();
+  }
+
+  // Function to highlight the active filters
+  function highlightActiveFilters() {
+    // Department filter
+    if (departmentSelect.value) {
+      departmentSelect.classList.add('active-filter');
+    } else {
+      departmentSelect.classList.remove('active-filter');
+    }
+    
+    // Location filter
+    if (locationSelect.value) {
+      locationSelect.classList.add('active-filter');
+    } else {
+      locationSelect.classList.remove('active-filter');
+    }
+    
+    // Job type filter
+    if (jobTypeSelect.value) {
+      jobTypeSelect.classList.add('active-filter');
+    } else {
+      jobTypeSelect.classList.remove('active-filter');
+    }
+  }
+
+  // Enhanced renderJobs function with department highlighting
   function renderJobs() {
     // Clear existing job listings
     jobListingsContainer.innerHTML = "";
@@ -375,11 +480,34 @@ document.addEventListener("DOMContentLoaded", function () {
         resetButton.addEventListener("click", resetFilters);
       }
     } else {
-      // Render each job card
+      // Get selected department, location, and job type for highlighting
+      const selectedDepartment = departmentSelect.value.toLowerCase();
+      const selectedLocation = locationSelect.value.toLowerCase();
+      const selectedJobType = jobTypeSelect.value.toLowerCase();
+
+      // Render each job card with enhanced styling
       jobsToDisplay.forEach((job) => {
         const jobCard = document.createElement("div");
         jobCard.className = "job-card";
         jobCard.dataset.jobId = job.id;
+        
+        // Add department, location and type data attributes for filtering and highlighting
+        jobCard.dataset.department = job.department.toLowerCase();
+        jobCard.dataset.location = job.location.toLowerCase();
+        jobCard.dataset.jobType = job.type.toLowerCase();
+        
+        // Add highlighting classes based on filters
+        if (selectedDepartment && job.department.toLowerCase() === selectedDepartment) {
+          jobCard.classList.add('highlighted-department');
+        }
+        
+        if (selectedLocation && job.location.toLowerCase() === selectedLocation) {
+          jobCard.classList.add('highlighted-location');
+        }
+        
+        if (selectedJobType && job.type.toLowerCase() === selectedJobType) {
+          jobCard.classList.add('highlighted-jobtype');
+        }
 
         jobCard.innerHTML = `
           <div class="job-header">
@@ -404,8 +532,8 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // Update search results stats
-    if (searchResultsStats) {
+    // Update search results stats (number of jobs found)
+    if (searchResultsStats && resultsCountElement) {
       if (filteredJobs.length > 0) {
         searchResultsStats.style.display = "block";
         resultsCountElement.textContent = filteredJobs.length;
@@ -453,46 +581,29 @@ document.addEventListener("DOMContentLoaded", function () {
     filteredJobs = [...allJobs];
     visibleJobsCount = initialJobsCount;
     isShowingAll = false;
+    
+    // Remove any department highlighting
+    jobListingsContainer.removeAttribute("data-filtered-department");
+    
+    // Remove active filter classes
+    departmentSelect.classList.remove('active-filter');
+    locationSelect.classList.remove('active-filter');
+    jobTypeSelect.classList.remove('active-filter');
+    
     renderJobs();
-  }
-
-  // Filter jobs based on search criteria
-  function filterJobs() {
-    const searchTerm = searchInput.value.toLowerCase();
-    const department = departmentSelect.value.toLowerCase();
-    const location = locationSelect.value.toLowerCase();
-    const jobType = jobTypeSelect.value.toLowerCase();
-
-    // Apply all filters
-    filteredJobs = allJobs.filter((job) => {
-      const matchesSearch =
-        searchTerm === "" ||
-        job.title.toLowerCase().includes(searchTerm) ||
-        job.description.toLowerCase().includes(searchTerm);
-
-      const matchesDepartment =
-        department === "" || job.department.toLowerCase() === department;
-
-      const matchesLocation =
-        location === "" || job.location.toLowerCase() === location;
-
-      const matchesJobType =
-        jobType === "" || job.type.toLowerCase() === jobType;
-
-      return (
-        matchesSearch && matchesDepartment && matchesLocation && matchesJobType
-      );
-    });
-
-    // Reset visible jobs count to initial value after filtering
-    visibleJobsCount = initialJobsCount;
-    isShowingAll = false;
-
-    // Render the filtered jobs
-    renderJobs();
-
-    // Update filtering tips visibility
-    updateFilteringTipsVisibility();
+    
+    // Hide filtering tips after reset
+    if (filteringTips) {
+      filteringTips.style.display = "none";
+    }
+    
+    // Update search results stats
+    if (searchResultsStats) {
+      const statsText = searchResultsStats.querySelector("p");
+      if (statsText) {
+        statsText.innerHTML = `<span id="results-count">${allJobs.length}</span> টি চাকরির সুযোগ পাওয়া গেছে`;
+      }
+    }
   }
 
   // Update filtering tips visibility based on search results
@@ -503,6 +614,17 @@ document.addEventListener("DOMContentLoaded", function () {
         filteringTips.style.display = "flex";
       } else {
         filteringTips.style.display = "none";
+      }
+      
+      // Set filtering tips text color to white
+      filteringTips.style.color = "white";
+      const tipHeading = filteringTips.querySelector("h4");
+      const tipParagraph = filteringTips.querySelector("p");
+      if (tipHeading) {
+        tipHeading.style.color = "white";
+      }
+      if (tipParagraph) {
+        tipParagraph.style.color = "rgba(255, 255, 255, 0.9)";
       }
     }
   }
@@ -521,7 +643,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initial render
     renderJobs();
 
-    // Load more button event
+    // Enhanced Load more button event - Now shows all jobs at once
     loadMoreBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
@@ -529,10 +651,14 @@ document.addEventListener("DOMContentLoaded", function () {
         // If already showing all jobs, go back to showing initial count
         visibleJobsCount = initialJobsCount;
         isShowingAll = false;
+        this.innerHTML = `আরও দেখুন (${
+          filteredJobs.length - visibleJobsCount
+        }) <i class="fas fa-chevron-down"></i>`;
       } else {
-        // Show all remaining jobs at once
+        // Show all remaining jobs at once (all 16 jobs)
         visibleJobsCount = filteredJobs.length;
         isShowingAll = true;
+        this.innerHTML = `কম দেখুন <i class="fas fa-chevron-up"></i>`;
       }
 
       // Re-render jobs with updated count
@@ -567,10 +693,63 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    if (departmentSelect)
-      departmentSelect.addEventListener("change", filterJobs);
-    if (locationSelect) locationSelect.addEventListener("change", filterJobs);
-    if (jobTypeSelect) jobTypeSelect.addEventListener("change", filterJobs);
+    // Event listeners for filters should be updated to call filterJobs immediately:
+    if (departmentSelect) {
+      departmentSelect.addEventListener("change", function() {
+        filterJobs();
+        
+        // Visual feedback
+        if (this.value) {
+          this.classList.add('active-filter');
+          
+          // Scroll to results
+          window.scrollTo({
+            top: document.getElementById("job-opportunities").offsetTop - 100,
+            behavior: "smooth",
+          });
+        } else {
+          this.classList.remove('active-filter');
+        }
+      });
+    }
+
+    if (locationSelect) {
+      locationSelect.addEventListener("change", function() {
+        filterJobs();
+        
+        // Visual feedback
+        if (this.value) {
+          this.classList.add('active-filter');
+          
+          // Scroll to results
+          window.scrollTo({
+            top: document.getElementById("job-opportunities").offsetTop - 100,
+            behavior: "smooth",
+          });
+        } else {
+          this.classList.remove('active-filter');
+        }
+      });
+    }
+
+    if (jobTypeSelect) {
+      jobTypeSelect.addEventListener("change", function() {
+        filterJobs();
+        
+        // Visual feedback
+        if (this.value) {
+          this.classList.add('active-filter');
+          
+          // Scroll to results
+          window.scrollTo({
+            top: document.getElementById("job-opportunities").offsetTop - 100,
+            behavior: "smooth",
+          });
+        } else {
+          this.classList.remove('active-filter');
+        }
+      });
+    }
   }
 
   // Job details data (simulated database)
@@ -746,9 +925,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // মোডাল ইভেন্ট ইনিশিয়ালাইজ করার ফাংশন
+  // Enhanced modal events initialization
   function initializeModalEvents() {
-    // সব "বিস্তারিত দেখুন" বাটন নিন (নতুন যুক্ত করা বাটনসহ)
+    // Get all "বিস্তারিত দেখুন" buttons (including newly added ones)
     const viewDetailsButtons = document.querySelectorAll(".view-details");
     const applyNowButtons = document.querySelectorAll(".apply-now");
     const applyFromModalBtn = document.querySelector(".apply-from-modal");
@@ -757,7 +936,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("applicant-resume");
     const fileName = document.querySelector(".file-name");
 
-    // "বিস্তারিত দেখুন" বাটন
+    // "বিস্তারিত দেখুন" button
     viewDetailsButtons.forEach((button) => {
       button.addEventListener("click", function (e) {
         e.preventDefault();
@@ -766,7 +945,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // "আবেদন করুন" বাটন
+    // "আবেদন করুন" button
     applyNowButtons.forEach((button) => {
       button.addEventListener("click", function (e) {
         e.preventDefault();
@@ -775,33 +954,33 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // জব ডিটেইলস মোডাল থেকে আবেদন করুন
+    // Apply from job details modal
     if (applyFromModalBtn) {
       applyFromModalBtn.addEventListener("click", function (e) {
         e.preventDefault();
         const jobId = this.dataset.jobId;
-        hideModal(jobDetailsModal);
+        hideModal(document.querySelector(".job-details-modal"));
         showJobApplication(jobId);
       });
     }
 
-    // জব আবেদন ফর্ম সাবমিশন
+    // Job application form submission
     if (jobApplicationForm) {
       jobApplicationForm.addEventListener("submit", function (e) {
         e.preventDefault();
-        hideModal(jobApplicationModal);
+        hideModal(document.querySelector(".job-application-modal"));
         showApplicationSuccess();
       });
     }
 
-    // সাকসেস মোডাল বন্ধ করুন
+    // Close success modal
     if (closeSuccessModalBtn) {
       closeSuccessModalBtn.addEventListener("click", function () {
-        hideModal(applicationSuccessModal);
+        hideModal(document.querySelector(".application-success-modal"));
       });
     }
 
-    // ফাইল ইনপুট পরিবর্তন - ফাইলের নাম দেখান
+    // File input change - show filename
     if (fileInput && fileName) {
       fileInput.addEventListener("change", function () {
         if (this.files.length > 0) {
@@ -813,121 +992,145 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // জব ডিটেইলস মোডাল দেখানোর ফাংশন
+  // Enhanced job details modal display
   function showJobDetails(jobId) {
     const jobData = jobDetailsData[jobId];
     if (!jobData) return;
 
-    // মোডাল টাইটেল সেট করুন
-    document.getElementById("job-modal-title").textContent = jobData.title;
+    const jobDetailsModal = document.querySelector(".job-details-modal");
+    
+    // Set modal title
+    const jobModalTitle = document.getElementById("job-modal-title");
+    if (jobModalTitle) {
+      jobModalTitle.textContent = jobData.title;
+    }
 
-    // জব মেটা ডেটা সেট করুন
+    // Set job meta data
     const jobTypeModal = document.querySelector(".job-type-modal");
     const jobLocation = document.querySelector(".job-location");
     const jobDepartment = document.querySelector(".job-department");
     const jobDate = document.querySelector(".job-date");
 
-    jobTypeModal.textContent = jobData.type;
-    jobTypeModal.className = `job-type-modal ${
-      jobData.type === "ফুল-টাইম"
-        ? "full-time"
-        : jobData.type === "পার্ট-টাইম"
-        ? "part-time"
-        : jobData.type === "কন্ট্রাক্ট"
-        ? "contract"
-        : jobData.type === "ইন্টার্নশিপ"
-        ? "internship"
-        : jobData.type.toLowerCase()
-    }`;
-    jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${jobData.location}`;
-    jobDepartment.innerHTML = `<i class="fas fa-building"></i> ${jobData.department}`;
-    jobDate.innerHTML = `<i class="fas fa-calendar-alt"></i> ${jobData.posted}`;
+    if (jobTypeModal) jobTypeModal.textContent = jobData.type;
+    if (jobTypeModal) {
+      jobTypeModal.className = `job-type-modal ${
+        jobData.type === "ফুল-টাইম"
+          ? "full-time"
+          : jobData.type === "পার্ট-টাইম"
+          ? "part-time"
+          : jobData.type === "কন্ট্রাক্ট"
+          ? "contract"
+          : jobData.type === "ইন্টার্নশিপ"
+          ? "internship"
+          : jobData.type.toLowerCase()
+      }`;
+    }
+    
+    if (jobLocation) jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${jobData.location}`;
+    if (jobDepartment) jobDepartment.innerHTML = `<i class="fas fa-building"></i> ${jobData.department}`;
+    if (jobDate) jobDate.innerHTML = `<i class="fas fa-calendar-alt"></i> ${jobData.posted}`;
 
-    // জব বর্ণনা সেট করুন
+    // Set job description
     const jobDescription = document.querySelector(".job-description");
+    if (jobDescription) {
+      let responsibilitiesHTML = "";
+      if (jobData.responsibilities && jobData.responsibilities.length > 0) {
+        responsibilitiesHTML = `
+          <h3>দায়িত্ব</h3>
+          <ul>
+              ${jobData.responsibilities
+                .map((item) => `<li>${item}</li>`)
+                .join("")}
+          </ul>
+        `;
+      }
 
-    let responsibilitiesHTML = "";
-    if (jobData.responsibilities && jobData.responsibilities.length > 0) {
-      responsibilitiesHTML = `
-        <h3>দায়িত্ব</h3>
-        <ul>
-            ${jobData.responsibilities
-              .map((item) => `<li>${item}</li>`)
-              .join("")}
-        </ul>
+      let qualificationsHTML = "";
+      if (jobData.qualifications && jobData.qualifications.length > 0) {
+        qualificationsHTML = `
+          <h3>যোগ্যতা</h3>
+          <ul>
+              ${jobData.qualifications.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        `;
+      }
+
+      let benefitsHTML = "";
+      if (jobData.benefits && jobData.benefits.length > 0) {
+        benefitsHTML = `
+          <h3>আমরা যা অফার করি</h3>
+          <ul>
+              ${jobData.benefits.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        `;
+      }
+
+      jobDescription.innerHTML = `
+          <h3>চাকরির বিবরণ</h3>
+          <p>${jobData.description}</p>
+          ${responsibilitiesHTML}
+          ${qualificationsHTML}
+          ${benefitsHTML}
       `;
     }
 
-    let qualificationsHTML = "";
-    if (jobData.qualifications && jobData.qualifications.length > 0) {
-      qualificationsHTML = `
-        <h3>যোগ্যতা</h3>
-        <ul>
-            ${jobData.qualifications.map((item) => `<li>${item}</li>`).join("")}
-        </ul>
-      `;
+    // Set job ID in apply button
+    const applyFromModalBtn = document.querySelector(".apply-from-modal");
+    if (applyFromModalBtn) {
+      applyFromModalBtn.dataset.jobId = jobId;
     }
 
-    let benefitsHTML = "";
-    if (jobData.benefits && jobData.benefits.length > 0) {
-      benefitsHTML = `
-        <h3>আমরা যা অফার করি</h3>
-        <ul>
-            ${jobData.benefits.map((item) => `<li>${item}</li>`).join("")}
-        </ul>
-      `;
-    }
-
-    jobDescription.innerHTML = `
-        <h3>চাকরির বিবরণ</h3>
-        <p>${jobData.description}</p>
-        ${responsibilitiesHTML}
-        ${qualificationsHTML}
-        ${benefitsHTML}
-    `;
-
-    // অ্যাপ্লাই বাটনে জব আইডি সেট করুন
-    document.querySelector(".apply-from-modal").dataset.jobId = jobId;
-
-    // মোডাল দেখান
+    // Show modal with enhanced animation
     showModal(jobDetailsModal);
   }
 
-  // আবেদন মোডাল দেখানোর ফাংশন
+  // Enhanced job application modal display
   function showJobApplication(jobId) {
     const jobData = jobDetailsData[jobId];
     if (!jobData) return;
 
-    // মোডাল টাইটেল সেট করুন
-    document.getElementById(
-      "application-modal-title"
-    ).textContent = `আবেদন করুন - ${jobData.title}`;
+    const jobApplicationModal = document.querySelector(".job-application-modal");
+    
+    // Set modal title
+    const applicationModalTitle = document.getElementById("application-modal-title");
+    if (applicationModalTitle) {
+      applicationModalTitle.textContent = `আবেদন করুন - ${jobData.title}`;
+    }
 
-    // ফর্ম রিসেট করুন
+    // Reset form
     const jobApplicationForm = document.getElementById("job-application-form");
     if (jobApplicationForm) {
       jobApplicationForm.reset();
-      document.querySelector(".file-name").textContent =
-        "কোনো ফাইল নির্বাচন করা হয়নি";
+      
+      const fileName = document.querySelector(".file-name");
+      if (fileName) {
+        fileName.textContent = "কোনো ফাইল নির্বাচন করা হয়নি";
+      }
     }
 
-    // মোডাল দেখান
+    // Show modal with enhanced animation
     showModal(jobApplicationModal);
   }
 
-  // আবেদন সফল মোডাল দেখানোর ফাংশন
+  // Enhanced application success modal display
   function showApplicationSuccess() {
-    // র‍্যান্ডম আবেদন আইডি জেনারেট করুন
+    const applicationSuccessModal = document.querySelector(".application-success-modal");
+    
+    // Generate random application ID
     const applicationId = `SP-${new Date().getFullYear()}-${Math.floor(
       10000 + Math.random() * 90000
     )}`;
-    document.getElementById("application-id").textContent = applicationId;
+    
+    const applicationIdElement = document.getElementById("application-id");
+    if (applicationIdElement) {
+      applicationIdElement.textContent = applicationId;
+    }
 
-    // মোডাল দেখান
+    // Show modal with enhanced animation
     showModal(applicationSuccessModal);
   }
 
-  // Enhanced modal functionality with animations and improved UX
+  // Enhanced modal display with better animations
   function showModal(modal) {
     if (!modal) return;
 
@@ -937,7 +1140,11 @@ document.addEventListener("DOMContentLoaded", function () {
       backdrop.className = "modal-backdrop";
       document.body.appendChild(backdrop);
 
-      // Fade in backdrop
+      // Enhanced backdrop appearance
+      backdrop.style.backdropFilter = "blur(8px)";
+      backdrop.style.backgroundColor = "rgba(28, 46, 88, 0.85)";
+
+      // Fade in backdrop with smoother animation
       setTimeout(() => {
         backdrop.style.opacity = "1";
       }, 10);
@@ -951,28 +1158,31 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // প্রথমে CSS display:block করুন তবে এখনো অদৃশ্য রাখুন
+    // First set display:block but keep it invisible
     modal.style.display = "block";
 
-    // একটি রিফ্লো ফোরস করুন যাতে অ্যানিমেশন কাজ করে
+    // Force a reflow so animation works
     modal.offsetHeight;
 
-    // Add entrance animation to modal content
+    // Add enhanced entrance animation to modal content
     const modalContent = modal.querySelector(".modal-content");
     if (modalContent) {
-      modalContent.style.animation = "modalEntrance 0.4s ease forwards";
+      modalContent.style.animation = "modalEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards";
+      modalContent.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.3)";
+      modalContent.style.border = "1px solid rgba(255, 255, 255, 0.1)";
     }
 
-    // তারপর active ক্লাস যোগ করুন অ্যানিমেশন ট্রিগার করতে
+    // Then add active class to trigger animation
     modal.classList.add("active");
 
-    // বডি স্ক্রল বন্ধ করুন
+    // Prevent body scroll
     document.body.style.overflow = "hidden";
 
     // Add escape key listener
     document.addEventListener("keydown", handleEscapeKey);
   }
 
+  // Enhanced modal hide function
   function hideModal(modal) {
     if (!modal) return;
 
@@ -982,7 +1192,7 @@ document.addEventListener("DOMContentLoaded", function () {
       modalContent.style.animation = "modalExit 0.3s ease forwards";
     }
 
-    // Remove modal-backdrop
+    // Remove modal-backdrop with fade
     const backdrop = document.querySelector(".modal-backdrop");
     if (backdrop) {
       backdrop.style.opacity = "0";
@@ -993,10 +1203,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 300);
     }
 
-    // active ক্লাস সরিয়ে ফেলুন ফেড আউট অ্যানিমেশন শুরু করতে
+    // Remove active class to start fade out animation
     modal.classList.remove("active");
 
-    // অ্যানিমেশন সম্পন্ন হতে অপেক্ষা করুন তারপর মোডাল লুকান
+    // Wait for animation to complete then hide modal
     setTimeout(() => {
       modal.style.display = "none";
       document.body.style.overflow = "";
@@ -1016,7 +1226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // মোডাল বন্ধ বাটন ক্লিক করলে
+  // Setup modal close buttons
   const modalCloseBtns = document.querySelectorAll(".modal-close");
   modalCloseBtns.forEach((btn) => {
     btn.addEventListener("click", function () {
@@ -1025,9 +1235,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Add CSS for modal enhancements
-  const styleEl = document.createElement("style");
-  styleEl.textContent = `
+  // Add CSS for highlighting filtered jobs
+  const highlightingStyles = document.createElement('style');
+  highlightingStyles.textContent = `
+    /* Department highlighting */
+    .job-card.highlighted-department {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(74, 118, 232, 0.2) !important;
+      border-color: #4a76e8 !important;
+      position: relative;
+    }
+    
+    .job-card.highlighted-department .job-header {
+      background: linear-gradient(to right, rgba(74, 118, 232, 0.1), rgba(74, 118, 232, 0.05)) !important;
+    }
+    
+    .job-card.highlighted-department::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: #4a76e8;
+      border-radius: 15px 0 0 15px;
+    }
+    
+    /* Location highlighting */
+    .job-card.highlighted-location {
+      border-color: #28a745 !important;
+    }
+    
+    .job-card.highlighted-location .job-info span:first-child {
+      font-weight: bold;
+      color: #28a745;
+    }
+    
+    /* Job type highlighting */
+    .job-card.highlighted-jobtype .job-type {
+      transform: scale(1.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Active filter styles */
+    select.active-filter {
+      border-color: #4a76e8 !important;
+      background-color: rgba(74, 118, 232, 0.05) !important;
+      font-weight: bold;
+    }
+    
+    /* Enhanced search results stats */
+    .search-results-stats {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 12px 25px;
+      border-radius: 30px;
+      color: white;
+      display: inline-block;
+      margin-bottom: 20px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-weight: 500;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .search-results-stats strong {
+      font-weight: 700;
+      color: #ffeb3b;
+    }
+    
+    #results-count {
+      font-weight: 700;
+      color: #ffeb3b;
+      font-size: 1.2em;
+    }
+    
+    /* Modal enhancements */
     .modal-backdrop {
       position: fixed;
       top: 0;
@@ -1035,12 +1317,13 @@ document.addEventListener("DOMContentLoaded", function () {
       width: 100%;
       height: 100%;
       background-color: rgba(28, 46, 88, 0.8);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px);
       z-index: 999;
       opacity: 0;
       transition: opacity 0.3s ease;
     }
     
+    /* Enhanced modal animations */
     @keyframes modalEntrance {
       from {
         opacity: 0;
@@ -1063,81 +1346,156 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     
+    /* Add subtle glass effect to modals */
+    .modal-content {
+      border-radius: 15px !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
+      overflow: hidden;
+    }
+    
+    .modal-header {
+      background: linear-gradient(to right, #3959a5, #4a76e8) !important;
+      color: white !important;
+      border-bottom: none !important;
+    }
+    
+    .modal-header h2 {
+      color: white !important;
+      font-size: 1.6rem !important;
+    }
+    
+    .modal-close {
+      color: white !important;
+      opacity: 0.8;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+    
+    /* Improve no results message */
     .no-results {
       text-align: center;
-      padding: 50px 20px;
+      padding: 60px 20px;
       background-color: rgba(255, 255, 255, 0.9);
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(28, 46, 88, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(28, 46, 88, 0.15);
     }
     
     .no-results-icon {
-      font-size: 3rem;
-      color: var(--accent-color);
+      font-size: 4rem;
+      color: #4a76e8;
       margin-bottom: 20px;
+      opacity: 0.7;
     }
     
     .no-results h3 {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
       margin-bottom: 15px;
-      color: var(--primary-color);
+      color: #1c2e58;
     }
     
     .no-results p {
-      margin-bottom: 20px;
-      color: var(--text-medium);
+      margin-bottom: 25px;
+      color: #555;
+      font-size: 1.1rem;
     }
     
+    /* White text for filtering tips */
     .filtering-tips {
       display: flex;
       align-items: flex-start;
       gap: 20px;
       background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      padding: 20px;
+      border-radius: 15px;
+      padding: 25px;
       margin-top: 30px;
       backdrop-filter: blur(5px);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
+      color: white !important;
     }
     
     .tip-icon {
-      font-size: 2rem;
-      color: #ffc107;
+      font-size: 2.2rem;
+      color: #ffeb3b;
       flex-shrink: 0;
     }
     
     .tip-content h4 {
-      color: white;
-      margin-bottom: 8px;
-      font-size: 1.2rem;
+      color: white !important;
+      margin-bottom: 10px;
+      font-size: 1.3rem;
     }
     
     .tip-content p {
       margin: 0;
       line-height: 1.6;
-      font-size: 0.95rem;
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.9) !important;
     }
     
-    .search-results-stats {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 10px 20px;
-      border-radius: 30px;
-      color: white;
-      display: inline-block;
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+    /* Enhanced form elements */
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: #4a76e8 !important;
+      box-shadow: 0 0 0 3px rgba(74, 118, 232, 0.2) !important;
     }
     
-    /* Update job-opportunities background color to medium blue */
-    .job-opportunities {
-      background-color: #3959a5;
+    /* Enhanced buttons */
+    .btn-primary {
+      background: linear-gradient(to right, #3959a5, #4a76e8) !important;
+      box-shadow: 0 4px 15px rgba(74, 118, 232, 0.3) !important;
+      padding: 14px 32px !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px) !important;
+      box-shadow: 0 6px 20px rgba(74, 118, 232, 0.4) !important;
+    }
+    
+    .btn-secondary {
+      border: 2px solid #4a76e8 !important;
+      color: #4a76e8 !important;
+      padding: 12px 30px !important;
+      transition: all 0.3s ease !important;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #4a76e8 !important;
+      color: white !important;
+      transform: translateY(-3px) !important;
+    }
+    
+    /* Responsive enhancements */
+    @media (max-width: 768px) {
+      .modal-content {
+        margin: 10px !important;
+        width: calc(100% - 20px) !important;
+      }
+      
+      .job-filter {
+        padding: 20px !important;
+      }
+      
+      .filtering-tips {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      
+      .job-header h3 {
+        font-size: 1.2rem !important;
+      }
     }
   `;
-  document.head.appendChild(styleEl);
+  document.head.appendChild(highlightingStyles);
 
-  // উপরে যাওয়ার বাটন
+  // Back to top button enhancement
   const backToTopBtn = document.getElementById("back-to-top");
 
   if (backToTopBtn) {
@@ -1153,9 +1511,14 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+    
+    // Enhanced styling
+    backToTopBtn.style.backgroundColor = "#4a76e8";
+    backToTopBtn.style.color = "white";
+    backToTopBtn.style.boxShadow = "0 5px 15px rgba(74, 118, 232, 0.3)";
   }
 
-  // নিউজলেটার ফর্ম সাবমিশন
+  // Newsletter form submission
   const newsletterForm = document.querySelector(".newsletter-form");
 
   if (newsletterForm) {
@@ -1163,7 +1526,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       const emailInput = this.querySelector('input[type="email"]');
       if (emailInput && emailInput.value) {
-        // সাকসেস মেসেজ দেখান
+        // Show success message
         const formContainer = this.parentElement;
         formContainer.innerHTML = `
           <div class="success-message">
@@ -1178,7 +1541,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // সেকশন অ্যানিমেশন স্ক্রলের সময়
+  // Section animations on scroll
   const sections = document.querySelectorAll("section");
 
   function checkSections() {
@@ -1194,7 +1557,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // অ্যানিমেশনের জন্য প্রাথমিক স্টাইল প্রয়োগ করুন
+  // Apply initial style for animations
   sections.forEach((section) => {
     section.style.opacity = "0";
     section.style.transform = "translateY(30px)";
@@ -1204,4 +1567,3 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("scroll", checkSections);
   window.addEventListener("load", checkSections);
 });
- 

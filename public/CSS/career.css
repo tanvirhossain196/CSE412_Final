@@ -243,7 +243,7 @@ body {
 
 .btn-primary {
   display: inline-block;
-  background-color: var(--accent-color);
+  background: linear-gradient(to right, #3959a5, #4a76e8);
   color: white;
   padding: 14px 32px;
   border-radius: var(--radius-round);
@@ -253,13 +253,13 @@ body {
   text-decoration: none;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(74, 118, 232, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 118, 232, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-darker);
+  background: linear-gradient(to right, #304c8e, #3965d6);
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(74, 118, 232, 0.4);
+  box-shadow: 0 6px 20px rgba(74, 118, 232, 0.4);
 }
 
 .btn-primary:active {
@@ -696,7 +696,7 @@ body {
 /* Job Opportunities Section - Enhanced */
 .job-opportunities {
   padding: 80px 0;
-  background-color: var(--primary-lighter);
+  background-color: #3959a5;
   position: relative;
   overflow: hidden;
 }
@@ -737,7 +737,7 @@ body {
   background-color: white;
   padding: 30px;
   border-radius: var(--radius-medium);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 10px 30px rgba(28, 46, 88, 0.15);
   position: relative;
   z-index: 2;
 }
@@ -764,7 +764,7 @@ body {
 }
 
 .search-bar button {
-  background-color: var(--accent-color);
+  background: linear-gradient(to right, #3959a5, #4a76e8);
   color: white;
   border: none;
   border-radius: 0 30px 30px 0;
@@ -775,7 +775,7 @@ body {
 }
 
 .search-bar button:hover {
-  background-color: var(--primary-darker);
+  background: linear-gradient(to right, #304c8e, #3965d6);
 }
 
 .filter-options {
@@ -806,6 +806,12 @@ body {
   box-shadow: 0 0 0 3px rgba(74, 118, 232, 0.1);
 }
 
+/* Active filter styles */
+.filter-options select.active-filter {
+  border-color: #4a76e8;
+  background-color: rgba(74, 118, 232, 0.05);
+}
+
 .job-listings {
   display: grid;
   gap: 30px;
@@ -816,10 +822,10 @@ body {
 
 .job-card {
   background-color: white;
-  border-radius: var(--radius-medium);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: var(--shadow-medium);
-  transition: var(--transition);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
   border: 1px solid var(--border-light);
   position: relative;
   opacity: 0;
@@ -832,9 +838,20 @@ body {
 }
 
 .job-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-dark);
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   border-color: var(--accent-light);
+}
+
+/* Highlighted job card for department filtering */
+.job-card.highlighted-job {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(74, 118, 232, 0.2);
+  border-color: #4a76e8;
+}
+
+.job-card.highlighted-job .job-header {
+  background-color: rgba(74, 118, 232, 0.1);
 }
 
 .job-header {
@@ -842,8 +859,9 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #f9f9f9;
+  background: linear-gradient(to right, #f8f9fa, #f0f5ff);
   border-bottom: 1px solid var(--border-light);
+  border-radius: 15px 15px 0 0;
 }
 
 .job-header h3 {
@@ -921,13 +939,107 @@ body {
   background-color: white;
   border-color: white;
   color: var(--primary-color);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+  padding: 14px 30px;
 }
 
 .load-more .btn-secondary:hover {
   background-color: var(--accent-color);
   border-color: var(--accent-color);
   color: white;
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.load-more .btn-secondary i {
+  margin-left: 8px;
+  transition: transform 0.3s ease;
+}
+
+.load-more .btn-secondary:hover i.fa-chevron-down {
+  transform: translateY(3px);
+}
+
+.load-more .btn-secondary:hover i.fa-chevron-up {
+  transform: translateY(-3px);
+}
+
+/* Improve no results message */
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(28, 46, 88, 0.15);
+}
+
+.no-results-icon {
+  font-size: 4rem;
+  color: #4a76e8;
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.no-results h3 {
+  font-size: 1.7rem;
+  margin-bottom: 15px;
+  color: #1c2e58;
+}
+
+.no-results p {
+  margin-bottom: 25px;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.reset-filters {
+  padding: 12px 25px;
+  font-weight: 500;
+}
+
+/* White text for filtering tips */
+.filtering-tips {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 30px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white !important;
+}
+
+.tip-icon {
+  font-size: 2.2rem;
+  color: #ffeb3b;
+  flex-shrink: 0;
+}
+
+.tip-content h4 {
+  color: white !important;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.tip-content p {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.search-results-stats {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: white;
+  display: inline-block;
+  margin-bottom: 20px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Modal Styles - Enhanced for better UX */
@@ -944,7 +1056,7 @@ body {
   padding: 20px;
   opacity: 0;
   transition: opacity 0.3s ease;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(8px);
 }
 
 .modal.active {
@@ -956,52 +1068,55 @@ body {
   background-color: white;
   margin: 50px auto;
   max-width: 800px;
-  border-radius: var(--radius-medium);
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
   position: relative;
-  animation: modalFadeIn 0.3s ease;
   max-height: 90vh;
   overflow-y: auto;
   transform: translateY(30px);
   opacity: 0;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .modal.active .modal-content {
   transform: translateY(0);
   opacity: 1;
+  animation: modalEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 .modal-header {
   padding: 20px 30px;
-  border-bottom: 1px solid var(--border-light);
+  border-bottom: none;
   position: sticky;
   top: 0;
-  background-color: white;
+  background: linear-gradient(to right, #3959a5, #4a76e8);
   z-index: 10;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 15px 15px 0 0;
 }
 
 .modal-header h2 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 600;
-  color: var(--primary-color);
+  color: white;
   margin: 0;
 }
 
 .modal-close {
   font-size: 1.75rem;
-  color: var(--text-light);
+  color: white;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.3s ease;
   line-height: 1;
+  opacity: 0.8;
 }
 
 .modal-close:hover {
-  color: var(--accent-color);
+  opacity: 1;
+  transform: rotate(90deg);
 }
 
 .modal-body {
@@ -1121,8 +1236,8 @@ body {
 .form-group input:focus,
 .form-group textarea:focus,
 .form-group select:focus {
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(74, 118, 232, 0.1);
+  border-color: #4a76e8;
+  box-shadow: 0 0 0 3px rgba(74, 118, 232, 0.2);
 }
 
 .file-upload {
@@ -1197,6 +1312,19 @@ body {
   font-size: 4rem;
   color: #28a745;
   margin-bottom: 20px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .success-message p {
@@ -1385,7 +1513,7 @@ body {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: var(--accent-color);
+  background: linear-gradient(to right, #3959a5, #4a76e8);
   color: white;
   border-radius: var(--radius-round);
   padding: 15px 25px;
@@ -1402,7 +1530,7 @@ body {
 .live-chat:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(74, 118, 232, 0.4);
-  background-color: var(--primary-color);
+  background: linear-gradient(to right, #304c8e, #3965d6);
 }
 
 .live-chat i {
@@ -1416,14 +1544,14 @@ body {
   left: 20px;
   width: 50px;
   height: 50px;
-  background-color: white;
-  color: var(--primary-color);
+  background-color: #4a76e8;
+  color: white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  box-shadow: var(--shadow-light);
+  box-shadow: 0 5px 15px rgba(74, 118, 232, 0.3);
   opacity: 0;
   visibility: hidden;
   transition: var(--transition);
@@ -1436,21 +1564,31 @@ body {
 }
 
 .back-to-top:hover {
-  background-color: var(--accent-color);
-  color: white;
   transform: translateY(-5px);
-  box-shadow: var(--shadow-medium);
+  box-shadow: 0 8px 20px rgba(74, 118, 232, 0.4);
+  background-color: #3959a5;
 }
 
-/* Animations */
-@keyframes modalFadeIn {
+/* Enhanced Animations */
+@keyframes modalEntrance {
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(50px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalExit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
   }
 }
 
@@ -1479,6 +1617,20 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(28, 46, 88, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 /* Responsive Styles */
@@ -1536,6 +1688,11 @@ body {
   .nav {
     display: none;
   }
+  
+  .modal-content {
+    margin: 30px auto;
+    width: 90%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1571,8 +1728,12 @@ body {
   }
 
   .modal-content {
-    margin: 20px auto;
+    margin: 15px auto;
     max-width: 95%;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.4rem !important;
   }
 
   .testimonial-navigation {
@@ -1592,6 +1753,25 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+  }
+  
+  .filtering-tips {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .job-filter {
+    padding: 20px;
+  }
+  
+  .job-header h3 {
+    font-size: 1.2rem;
   }
 }
 
@@ -1642,11 +1822,35 @@ body {
     padding: 20px;
   }
 
-  .form-actions {
-    flex-direction: column;
-  }
-
   .filter-options select {
     min-width: 100%;
+  }
+  
+  .search-bar {
+    flex-direction: column;
+  }
+  
+  .search-bar input,
+  .search-bar button {
+    border-radius: 30px;
+    width: 100%;
+  }
+  
+  .search-bar button {
+    margin-top: 10px;
+    height: 45px;
+  }
+  
+  .modal-content {
+    margin: 10px;
+    width: calc(100% - 20px);
+  }
+  
+  .modal-header {
+    padding: 15px 20px;
+  }
+  
+  .modal-body {
+    padding: 15px;
   }
 }
