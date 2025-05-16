@@ -1,4 +1,4 @@
-// Career Page JavaScript - Fixed for proper modal functionality
+// Career Page JavaScript - Enhanced with improved filtering functionality
 document.addEventListener("DOMContentLoaded", function () {
   // Mobile Menu Toggle
   const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
@@ -106,159 +106,285 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Job Search Functionality
+  // Enhanced Job Search Functionality
   const searchInput = document.querySelector(".search-bar input");
   const departmentSelect = document.querySelector('select[name="department"]');
   const locationSelect = document.querySelector('select[name="location"]');
   const jobTypeSelect = document.querySelector('select[name="job-type"]');
-  const jobCards = document.querySelectorAll(".job-card");
   const searchButton = document.querySelector(".search-bar button");
-
-  if (
-    searchInput &&
-    departmentSelect &&
-    locationSelect &&
-    jobTypeSelect &&
-    jobCards.length > 0
-  ) {
-    function filterJobs() {
-      const searchTerm = searchInput.value.toLowerCase();
-      const department = departmentSelect.value.toLowerCase();
-      const location = locationSelect.value.toLowerCase();
-      const jobType = jobTypeSelect.value.toLowerCase();
-
-      jobCards.forEach((card) => {
-        const title = card.querySelector("h3").textContent.toLowerCase();
-        const cardDepartment = card
-          .querySelector(".job-info span:nth-child(2)")
-          .textContent.toLowerCase();
-        const cardLocation = card
-          .querySelector(".job-info span:nth-child(1)")
-          .textContent.toLowerCase();
-        const cardJobType = card
-          .querySelector(".job-type")
-          .textContent.toLowerCase();
-
-        const matchesSearch = searchTerm === "" || title.includes(searchTerm);
-        const matchesDepartment =
-          department === "" || cardDepartment.includes(department);
-        const matchesLocation =
-          location === "" || cardLocation.includes(location);
-        const matchesJobType = jobType === "" || cardJobType.includes(jobType);
-
-        if (
-          matchesSearch &&
-          matchesDepartment &&
-          matchesLocation &&
-          matchesJobType
-        ) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    }
-
-    // Event listeners for search and filters
-    searchInput.addEventListener("input", filterJobs);
-    departmentSelect.addEventListener("change", filterJobs);
-    locationSelect.addEventListener("change", filterJobs);
-    jobTypeSelect.addEventListener("change", filterJobs);
-
-    // Search button click
-    if (searchButton) {
-      searchButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        filterJobs();
-      });
-    }
-  }
-
-  // Load More Jobs Functionality - FIXED
+  const jobListingsContainer = document.querySelector(".job-listings");
   const loadMoreBtn = document.getElementById("load-more-jobs");
+  const resultsCountElement = document.getElementById("results-count");
+  const searchResultsStats = document.querySelector(".search-results-stats");
+  const filteringTips = document.querySelector(".filtering-tips");
 
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener("click", function (e) {
-      e.preventDefault();
+  // All job data
+  const allJobs = [
+    {
+      id: "job1",
+      title: "সিনিয়র সফটওয়্যার ইঞ্জিনিয়ার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "টেকনোলজি",
+      posted: "১৪ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ সফটওয়্যার ইঞ্জিনিয়ার খুঁজছি যিনি আমাদের ফিনটেক প্ল্যাটফর্ম SurePay জন্য দায়িত্ব নিবেন।",
+    },
+    {
+      id: "job2",
+      title: "প্রোডাক্ট ম্যানেজার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "প্রোডাক্ট",
+      posted: "৭ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ প্রোডাক্ট ম্যানেজার খুঁজছি যিনি আমাদের ডিজিটাল পেমেন্ট সলিউশনগুলো SurePay নেতৃত্ব দিবেন।",
+    },
+    {
+      id: "job3",
+      title: "মার্কেটিং স্পেশালিস্ট",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "মার্কেটিং",
+      posted: "১০ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন সৃজনশীল মার্কেটিং স্পেশালিস্ট খুঁজছি যিনি আমাদের ডিজিটাল মার্কেটিং ক্যাম্পেইন পরিচালনা করবেন।",
+    },
+    {
+      id: "job4",
+      title: "ডাটা সায়েন্টিস্ট",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "ডাটা অ্যানালিটিক্স",
+      posted: "৫ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ ডাটা সায়েন্টিস্ট খুঁজছি যিনি ব্যবহারকারীদের আচরণ বিশ্লেষণ করে সেবার মান উন্নত করবেন।",
+    },
+    {
+      id: "job5",
+      title: "ক্যাস্টমার সাপোর্ট স্পেশালিস্ট",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "চট্টগ্রাম",
+      department: "কাস্টমার সার্ভিস",
+      posted: "২ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন উৎসাহী কাস্টমার সাপোর্ট স্পেশালিস্ট খুঁজছি যিনি আমাদের ব্যবহারকারীদের সর্বোচ্চ সেবা প্রদান করবেন।",
+    },
+    {
+      id: "job6",
+      title: "ফিন্যান্সিয়াল অ্যানালিস্ট",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "ফিন্যান্স",
+      posted: "৫ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ ফিন্যান্সিয়াল অ্যানালিস্ট খুঁজছি যিনি কোম্পানির ফিন্যান্সিয়াল পারফরম্যান্স বিশ্লেষণ করবেন।",
+    },
+    {
+      id: "job7",
+      title: "মার্কেটিং ম্যানেজার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "সিলেট",
+      department: "মার্কেটিং",
+      posted: "৭ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ মার্কেটিং ম্যানেজার খুঁজছি যিনি আমাদের মার্কেটিং কৌশল বিকাশ এবং বাস্তবায়ন করবেন।",
+    },
+    {
+      id: "job8",
+      title: "ফুল স্ট্যাক ডেভেলপার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "রাজশাহী",
+      department: "টেকনোলজি",
+      posted: "৩ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ ফুল স্ট্যাক ডেভেলপার খুঁজছি যিনি আমাদের ওয়েব অ্যাপ্লিকেশন বিকাশ এবং রক্ষণাবেক্ষণ করবেন।",
+    },
+    {
+      id: "job9",
+      title: "এন্টারপ্রাইজ আর্কিটেক্ট",
+      type: "part-time",
+      typeDisplay: "পার্ট-টাইম",
+      location: "ঢাকা",
+      department: "টেকনোলজি",
+      posted: "৮ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ এন্টারপ্রাইজ আর্কিটেক্ট খুঁজছি যিনি আমাদের সিস্টেম আর্কিটেকচার ডিজাইন এবং উন্নতি করবেন।",
+    },
+    {
+      id: "job10",
+      title: "ডাটা অ্যানালিটিকস স্পেশালিস্ট",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "চট্টগ্রাম",
+      department: "ডাটা অ্যানালিটিক্স",
+      posted: "১০ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ ডাটা অ্যানালিটিকস স্পেশালিস্ট খুঁজছি যিনি ব্যবহারকারীদের আচরণ বিশ্লেষণ করে সেবার মান উন্নত করবেন।",
+    },
+    {
+      id: "job11",
+      title: "ইউআই/ইউএক্স ডিজাইনার",
+      type: "contract",
+      typeDisplay: "কন্ট্রাক্ট",
+      location: "ঢাকা",
+      department: "ডিজাইন",
+      posted: "১২ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন সৃজনশীল ইউআই/ইউএক্স ডিজাইনার খুঁজছি যিনি আমাদের মোবাইল অ্যাপ ও ওয়েবসাইট ডিজাইন করবেন।",
+    },
+    {
+      id: "job12",
+      title: "DevOps ইঞ্জিনিয়ার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "খুলনা",
+      department: "টেকনোলজি",
+      posted: "৯ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ DevOps ইঞ্জিনিয়ার খুঁজছি যিনি আমাদের সিআই/সিডি পাইপলাইন এবং ক্লাউড ইনফ্রাস্ট্রাকচার পরিচালনা করবেন।",
+    },
+    {
+      id: "job13",
+      title: "এইচআর ম্যানেজার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "এইচআর",
+      posted: "৬ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ এইচআর ম্যানেজার খুঁজছি যিনি কর্মী নিয়োগ, উন্নয়ন এবং সংরক্ষণ কার্যক্রম পরিচালনা করবেন।",
+    },
+    {
+      id: "job14",
+      title: "ফ্রন্টএন্ড ডেভেলপার",
+      type: "internship",
+      typeDisplay: "ইন্টার্নশিপ",
+      location: "সিলেট",
+      department: "টেকনোলজি",
+      posted: "৪ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন উদ্যমী ফ্রন্টএন্ড ডেভেলপার খুঁজছি যিনি আমাদের ইউজার ইন্টারফেস ডেভেলপমেন্টে সহায়তা করবেন।",
+    },
+    {
+      id: "job15",
+      title: "ব্যাকএন্ড ডেভেলপার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "বরিশাল",
+      department: "টেকনোলজি",
+      posted: "১১ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ ব্যাকএন্ড ডেভেলপার খুঁজছি যিনি আমাদের সার্ভার-সাইড অ্যাপ্লিকেশন ডেভেলপমেন্টে নেতৃত্ব দিবেন।",
+    },
+    {
+      id: "job16",
+      title: "টেকনিক্যাল সাপোর্ট ইঞ্জিনিয়ার",
+      type: "part-time",
+      typeDisplay: "পার্ট-টাইম",
+      location: "রাজশাহী",
+      department: "কাস্টমার সার্ভিস",
+      posted: "৮ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন দক্ষ টেকনিক্যাল সাপোর্ট ইঞ্জিনিয়ার খুঁজছি যিনি আমাদের গ্রাহকদের টেকনিক্যাল সমস্যা সমাধানে সহায়তা করবেন।",
+    },
+    {
+      id: "job17",
+      title: "ব্র্যান্ড ম্যানেজার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "মার্কেটিং",
+      posted: "৭ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন উদ্ভাবনী ব্র্যান্ড ম্যানেজার খুঁজছি যিনি আমাদের ব্র্যান্ড স্ট্র্যাটেজি ও পরিচিতি উন্নত করবেন।",
+    },
+    {
+      id: "job18",
+      title: "কনটেন্ট রাইটার",
+      type: "contract",
+      typeDisplay: "কন্ট্রাক্ট",
+      location: "চট্টগ্রাম",
+      department: "মার্কেটিং",
+      posted: "৫ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন সৃজনশীল কনটেন্ট রাইটার খুঁজছি যিনি আমাদের মার্কেটিং ও ব্র্যান্ডিং কনটেন্ট তৈরি করবেন।",
+    },
+    {
+      id: "job19",
+      title: "অ্যাকাউন্টস ম্যানেজার",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "খুলনা",
+      department: "ফিন্যান্স",
+      posted: "৬ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন অভিজ্ঞ অ্যাকাউন্টস ম্যানেজার খুঁজছি যিনি আমাদের অ্যাকাউন্টিং ও ফিন্যান্সিয়াল অপারেশন পরিচালনা করবেন।",
+    },
+    {
+      id: "job20",
+      title: "ইন্টারনাল অডিটর",
+      type: "full-time",
+      typeDisplay: "ফুল-টাইম",
+      location: "ঢাকা",
+      department: "ফিন্যান্স",
+      posted: "৯ দিন আগে পোস্ট করা হয়েছে",
+      description:
+        "আমরা একজন মেধাবী ইন্টারনাল অডিটর খুঁজছি যিনি আমাদের আর্থিক প্রতিবেদন ও নিয়ন্ত্রণ ব্যবস্থা পর্যালোচনা করবেন।",
+    },
+  ];
 
-      // Get job listings container
-      const jobListings = document.querySelector(".job-listings");
+  // Initial visible jobs count
+  const initialJobsCount = 4;
+  let visibleJobsCount = initialJobsCount;
+  let filteredJobs = [...allJobs];
+  let isShowingAll = false;
 
-      // Additional job listings to add
-      const newJobs = [
-        {
-          title: "ক্যাস্টমার সাপোর্ট স্পেশালিস্ট",
-          type: "full-time",
-          location: "ঢাকা",
-          department: "কাস্টমার সার্ভিস",
-          posted: "২ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন উৎসাহী কাস্টমার সাপোর্ট স্পেশালিস্ট খুঁজছি যিনি আমাদের ব্যবহারকারীদের সর্বোচ্চ সেবা প্রদান করবেন।",
-          id: "job5",
-        },
-        {
-          title: "ফিন্যান্সিয়াল অ্যানালিস্ট",
-          type: "full-time",
-          location: "ঢাকা",
-          department: "ফিন্যান্স",
-          posted: "৫ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন দক্ষ ফিন্যান্সিয়াল অ্যানালিস্ট খুঁজছি যিনি কোম্পানির ফিন্যান্সিয়াল পারফরম্যান্স বিশ্লেষণ করবেন।",
-          id: "job6",
-        },
-        {
-          title: "মার্কেটিং ম্যানেজার",
-          type: "full-time",
-          location: "ঢাকা",
-          department: "মার্কেটিং",
-          posted: "৭ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন অভিজ্ঞ মার্কেটিং ম্যানেজার খুঁজছি যিনি আমাদের মার্কেটিং কৌশল বিকাশ এবং বাস্তবায়ন করবেন।",
-          id: "job7",
-        },
-        {
-          title: "ফুল স্ট্যাক ডেভেলপার",
-          type: "full-time",
-          location: "ঢাকা",
-          department: "টেকনোলজি",
-          posted: "৩ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন দক্ষ ফুল স্ট্যাক ডেভেলপার খুঁজছি যিনি আমাদের ওয়েব অ্যাপ্লিকেশন বিকাশ এবং রক্ষণাবেক্ষণ করবেন।",
-          id: "job8",
-        },
-        {
-          title: "এন্টারপ্রাইজ আর্কিটেক্ট",
-          type: "full-time",
-          location: "ঢাকা",
-          department: "টেকনোলজি",
-          posted: "৮ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন অভিজ্ঞ এন্টারপ্রাইজ আর্কিটেক্ট খুঁজছি যিনি আমাদের সিস্টেম আর্কিটেকচার ডিজাইন এবং উন্নতি করবেন।",
-          id: "job9",
-        },
-        {
-          title: "ডাটা অ্যানালিটিকস স্পেশালিস্ট",
-          type: "full-time",
-          location: "চট্টগ্রাম",
-          department: "ডাটা অ্যানালিটিক্স",
-          posted: "১০ দিন আগে পোস্ট করা হয়েছে",
-          description:
-            "আমরা একজন দক্ষ ডাটা অ্যানালিটিকস স্পেশালিস্ট খুঁজছি যিনি ব্যবহারকারীদের আচরণ বিশ্লেষণ করে সেবার মান উন্নত করবেন।",
-          id: "job10",
-        },
-      ];
+  // Initially render only the first 4 jobs
+  function renderJobs() {
+    // Clear existing job listings
+    jobListingsContainer.innerHTML = "";
 
-      // Create and append new job cards
-      newJobs.forEach((job) => {
-        const newJobCard = document.createElement("div");
-        newJobCard.className = "job-card";
-        newJobCard.dataset.jobId = job.id;
-        newJobCard.innerHTML = `
+    // Get the jobs to display based on current filter and visibility count
+    const jobsToDisplay = filteredJobs.slice(0, visibleJobsCount);
+
+    if (jobsToDisplay.length === 0) {
+      // No jobs match the filter criteria
+      jobListingsContainer.innerHTML = `
+        <div class="no-results">
+          <div class="no-results-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>কোন চাকরির সুযোগ পাওয়া যায়নি</h3>
+          <p>অনুগ্রহ করে আপনার সার্চ ক্রাইটেরিয়া পরিবর্তন করুন অথবা সকল ফিল্টার রিসেট করুন।</p>
+          <button class="btn-secondary reset-filters"><i class="fas fa-redo"></i> ফিল্টার রিসেট করুন</button>
+        </div>
+      `;
+
+      // Add event listener to the reset button
+      const resetButton = document.querySelector(".reset-filters");
+      if (resetButton) {
+        resetButton.addEventListener("click", resetFilters);
+      }
+    } else {
+      // Render each job card
+      jobsToDisplay.forEach((job) => {
+        const jobCard = document.createElement("div");
+        jobCard.className = "job-card";
+        jobCard.dataset.jobId = job.id;
+
+        jobCard.innerHTML = `
           <div class="job-header">
             <h3>${job.title}</h3>
-            <span class="job-type ${job.type}">${
-          job.type === "full-time" ? "ফুল-টাইম" : job.type
-        }</span>
+            <span class="job-type ${job.type}">${job.typeDisplay}</span>
           </div>
           <div class="job-details">
             <div class="job-info">
@@ -268,38 +394,184 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <p>${job.description}</p>
             <div class="job-footer">
-              <a href="#" class="btn-secondary view-details" data-job-id="${
-                job.id
-              }">বিস্তারিত দেখুন</a>
-              <a href="#" class="btn-primary apply-now" data-job-id="${
-                job.id
-              }">আবেদন করুন</a>
+              <a href="#" class="btn-secondary view-details" data-job-id="${job.id}">বিস্তারিত দেখুন</a>
+              <a href="#" class="btn-primary apply-now" data-job-id="${job.id}">আবেদন করুন</a>
             </div>
           </div>
         `;
 
-        jobListings.appendChild(newJobCard);
-
-        // Add animation to the new card
-        setTimeout(() => {
-          newJobCard.classList.add("animate");
-        }, 10);
+        jobListingsContainer.appendChild(jobCard);
       });
+    }
 
-      // Remove load more button after adding all jobs
-      loadMoreBtn.parentElement.remove();
+    // Update search results stats
+    if (searchResultsStats) {
+      if (filteredJobs.length > 0) {
+        searchResultsStats.style.display = "block";
+        resultsCountElement.textContent = filteredJobs.length;
+      } else {
+        searchResultsStats.style.display = "none";
+      }
+    }
 
-      // Reinitialize modal events for new job cards
-      initializeModalEvents();
+    // Show or hide the "Load More" button based on whether there are more jobs to show
+    if (filteredJobs.length > visibleJobsCount) {
+      loadMoreBtn.style.display = "block";
+      loadMoreBtn.innerHTML = `আরও দেখুন (${
+        filteredJobs.length - visibleJobsCount
+      }) <i class="fas fa-chevron-down"></i>`;
+    } else if (
+      filteredJobs.length > initialJobsCount &&
+      visibleJobsCount === filteredJobs.length
+    ) {
+      // Show "Show Less" button when all jobs are displayed
+      loadMoreBtn.style.display = "block";
+      loadMoreBtn.innerHTML = `কম দেখুন <i class="fas fa-chevron-up"></i>`;
+      isShowingAll = true;
+    } else {
+      loadMoreBtn.style.display = "none";
+    }
+
+    // Add animation to the job cards
+    const jobCards = document.querySelectorAll(".job-card");
+    jobCards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add("animate");
+      }, index * 100); // Staggered animation
     });
+
+    // Initialize modal events for the new job cards
+    initializeModalEvents();
   }
-  // Modal Functionality - FIXED
-  const jobDetailsModal = document.querySelector(".job-details-modal");
-  const jobApplicationModal = document.querySelector(".job-application-modal");
-  const applicationSuccessModal = document.querySelector(
-    ".application-success-modal"
-  );
-  const modalCloseBtns = document.querySelectorAll(".modal-close");
+
+  // Reset all filters
+  function resetFilters() {
+    searchInput.value = "";
+    departmentSelect.value = "";
+    locationSelect.value = "";
+    jobTypeSelect.value = "";
+    filteredJobs = [...allJobs];
+    visibleJobsCount = initialJobsCount;
+    isShowingAll = false;
+    renderJobs();
+  }
+
+  // Filter jobs based on search criteria
+  function filterJobs() {
+    const searchTerm = searchInput.value.toLowerCase();
+    const department = departmentSelect.value.toLowerCase();
+    const location = locationSelect.value.toLowerCase();
+    const jobType = jobTypeSelect.value.toLowerCase();
+
+    // Apply all filters
+    filteredJobs = allJobs.filter((job) => {
+      const matchesSearch =
+        searchTerm === "" ||
+        job.title.toLowerCase().includes(searchTerm) ||
+        job.description.toLowerCase().includes(searchTerm);
+
+      const matchesDepartment =
+        department === "" || job.department.toLowerCase() === department;
+
+      const matchesLocation =
+        location === "" || job.location.toLowerCase() === location;
+
+      const matchesJobType =
+        jobType === "" || job.type.toLowerCase() === jobType;
+
+      return (
+        matchesSearch && matchesDepartment && matchesLocation && matchesJobType
+      );
+    });
+
+    // Reset visible jobs count to initial value after filtering
+    visibleJobsCount = initialJobsCount;
+    isShowingAll = false;
+
+    // Render the filtered jobs
+    renderJobs();
+
+    // Update filtering tips visibility
+    updateFilteringTipsVisibility();
+  }
+
+  // Update filtering tips visibility based on search results
+  function updateFilteringTipsVisibility() {
+    if (filteringTips) {
+      // Show tips only when there are few results or many filters are applied
+      if (filteredJobs.length < 5 && allJobs.length > 10) {
+        filteringTips.style.display = "flex";
+      } else {
+        filteringTips.style.display = "none";
+      }
+    }
+  }
+
+  // Initialize job list and event listeners
+  if (jobListingsContainer && loadMoreBtn) {
+    // Style the filtering tips with white text
+    if (filteringTips) {
+      filteringTips.style.color = "white";
+      const tipHeading = filteringTips.querySelector("h4");
+      if (tipHeading) {
+        tipHeading.style.color = "white";
+      }
+    }
+
+    // Initial render
+    renderJobs();
+
+    // Load more button event
+    loadMoreBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      if (isShowingAll) {
+        // If already showing all jobs, go back to showing initial count
+        visibleJobsCount = initialJobsCount;
+        isShowingAll = false;
+      } else {
+        // Show all remaining jobs at once
+        visibleJobsCount = filteredJobs.length;
+        isShowingAll = true;
+      }
+
+      // Re-render jobs with updated count
+      renderJobs();
+
+      // Scroll slightly to show new content
+      if (!isShowingAll) {
+        window.scrollTo({
+          top: document.getElementById("job-opportunities").offsetTop - 100,
+          behavior: "smooth",
+        });
+      }
+    });
+
+    // Search button click
+    if (searchButton) {
+      searchButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        filterJobs();
+      });
+    }
+
+    // Filter change events
+    if (searchInput) {
+      searchInput.addEventListener("input", filterJobs);
+      // Also add enter key support
+      searchInput.addEventListener("keypress", function (e) {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          filterJobs();
+        }
+      });
+    }
+
+    if (departmentSelect)
+      departmentSelect.addEventListener("change", filterJobs);
+    if (locationSelect) locationSelect.addEventListener("change", filterJobs);
+    if (jobTypeSelect) jobTypeSelect.addEventListener("change", filterJobs);
+  }
 
   // Job details data (simulated database)
   const jobDetailsData = {
@@ -437,100 +709,42 @@ document.addEventListener("DOMContentLoaded", function () {
         "হাইব্রিড কাজের পরিবেশ",
       ],
     },
-    // অতিরিক্ত জব ডিটেইলস
-    job5: {
-      title: "ক্যাস্টমার সাপোর্ট স্পেশালিস্ট",
-      type: "ফুল-টাইম",
-      location: "ঢাকা",
-      department: "কাস্টমার সার্ভিস",
-      posted: "২ দিন আগে পোস্ট করা হয়েছে",
-      description:
-        "আমরা একজন উৎসাহী কাস্টমার সাপোর্ট স্পেশালিস্ট খুঁজছি যিনি আমাদের ব্যবহারকারীদের সর্বোচ্চ সেবা প্রদান করবেন। এই ভূমিকায়, আপনি বিকাশের কাস্টমার সার্ভিস টিমের একটি গুরুত্বপূর্ণ অংশ হবেন।",
-      responsibilities: [
-        "গ্রাহকদের প্রশ্ন, সমস্যা ও অভিযোগ সমাধান করা",
-        "গ্রাহকদের বিকাশ অ্যাপ ও সেবা ব্যবহারে সহায়তা করা",
-        "গ্রাহকদের সমস্যা রেকর্ড করা ও যথাযথ বিভাগে রেফার করা",
-        "গ্রাহকদের ফিডব্যাক সংগ্রহ করা ও রিপোর্ট করা",
-        "গ্রাহক সেবার মান নিশ্চিত করা",
-      ],
-      qualifications: [
-        "কাস্টমার সার্ভিসে কমপক্ষে ১ বছরের অভিজ্ঞতা",
-        "উন্নত যোগাযোগ দক্ষতা (লিখিত ও মৌখিক)",
-        "দল হিসেবে কাজ করার ক্ষমতা",
-        "সমস্যা সমাধানে দক্ষতা",
-        "ধৈর্য ও সহানুভূতি",
-      ],
-      benefits: [
-        "আকর্ষণীয় বেতন ও বেনিফিট প্যাকেজ",
-        "প্রতিযোগিতামূলক স্বাস্থ্য বীমা",
-        "পেশাদার বিকাশের সুযোগ",
-        "অনন্য কর্পোরেট সংস্কৃতি",
-        "হাইব্রিড কাজের পরিবেশ",
-      ],
-    },
-    job6: {
-      title: "ফিন্যান্সিয়াল অ্যানালিস্ট",
-      type: "ফুল-টাইম",
-      location: "ঢাকা",
-      department: "ফিন্যান্স",
-      posted: "৫ দিন আগে পোস্ট করা হয়েছে",
-      description:
-        "আমরা একজন দক্ষ ফিন্যান্সিয়াল অ্যানালিস্ট খুঁজছি যিনি কোম্পানির ফিন্যান্সিয়াল পারফরম্যান্স বিশ্লেষণ করবেন। এই ভূমিকায়, আপনি বিকাশের ফিন্যান্স টিমের একটি গুরুত্বপূর্ণ অংশ হবেন।",
-      responsibilities: [
-        "ফিন্যান্সিয়াল মডেল তৈরি ও বিশ্লেষণ করা",
-        "বাজেট প্রস্তুত করা ও পর্যালোচনা করা",
-        "ফিন্যান্সিয়াল রিপোর্ট তৈরি করা",
-        "রেভেনিউ ও ব্যয় বিশ্লেষণ করা",
-        "ফিন্যান্সিয়াল ট্রেন্ড ও প্যাটার্ন চিহ্নিত করা",
-        "ব্যবসায়িক সিদ্ধান্ত নেওয়ার জন্য ফিন্যান্সিয়াল ইনসাইট প্রদান করা",
-      ],
-      qualifications: [
-        "ফিন্যান্স, অ্যাকাউন্টিং বা সংশ্লিষ্ট ক্ষেত্রে স্নাতক ডিগ্রি",
-        "ফিন্যান্সিয়াল অ্যানালিসিসে কমপক্ষে ২ বছরের অভিজ্ঞতা",
-        "ফিন্যান্সিয়াল মডেলিং ও ফোরকাস্টিং এর অভিজ্ঞতা",
-        "এক্সেল ও ফিন্যান্সিয়াল সফটওয়্যার ব্যবহারে দক্ষতা",
-        "বিশ্লেষণাত্মক চিন্তাধারা ও সমস্যা সমাধান দক্ষতা",
-        "ডাটা ভিজ্যুয়ালাইজেশন দক্ষতা",
-      ],
-      benefits: [
-        "আকর্ষণীয় বেতন ও বেনিফিট প্যাকেজ",
-        "প্রতিযোগিতামূলক স্বাস্থ্য বীমা",
-        "পেশাদার বিকাশের সুযোগ",
-        "অনন্য কর্পোরেট সংস্কৃতি",
-        "হাইব্রিড কাজের পরিবেশ",
-      ],
-    },
-    job7: {
-      title: "মার্কেটিং ম্যানেজার",
-      type: "ফুল-টাইম",
-      location: "ঢাকা",
-      department: "মার্কেটিং",
-      posted: "৭ দিন আগে পোস্ট করা হয়েছে",
-      description:
-        "আমরা একজন অভিজ্ঞ মার্কেটিং ম্যানেজার খুঁজছি যিনি আমাদের মার্কেটিং কৌশল বিকাশ এবং বাস্তবায়ন করবেন।",
-      responsibilities: [
-        "মার্কেটিং স্ট্র্যাটেজি তৈরি ও বাস্তবায়ন করা",
-        "ব্র্যান্ড অ্যাওয়্যারনেস বাড়ানোর জন্য ক্যাম্পেইন ডিজাইন করা",
-        "মার্কেটিং টিম পরিচালনা করা",
-        "মার্কেটিং বাজেট ম্যানেজ করা",
-        "মার্কেটিং ট্রেন্ড ও প্যাটার্ন বিশ্লেষণ করা",
-      ],
-      qualifications: [
-        "মার্কেটিং বা সংশ্লিষ্ট ক্ষেত্রে স্নাতক ডিগ্রি",
-        "মার্কেটিং ম্যানেজমেন্টে কমপক্ষে ৫ বছরের অভিজ্ঞতা",
-        "ব্র্যান্ড ম্যানেজমেন্ট অভিজ্ঞতা",
-        "টিম লিডারশিপ স্কিল",
-        "ডিজিটাল মার্কেটিং টুলস ব্যবহারের অভিজ্ঞতা",
-      ],
-      benefits: [
-        "আকর্ষণীয় বেতন ও বেনিফিট প্যাকেজ",
-        "প্রতিযোগিতামূলক স্বাস্থ্য বীমা",
-        "পেশাদার বিকাশের সুযোগ",
-        "অনন্য কর্পোরেট সংস্কৃতি",
-        "হাইব্রিড কাজের পরিবেশ",
-      ],
-    },
   };
+
+  // Create detailed data for remaining jobs
+  allJobs.forEach((job) => {
+    if (!jobDetailsData[job.id]) {
+      jobDetailsData[job.id] = {
+        title: job.title,
+        type: job.typeDisplay,
+        location: job.location,
+        department: job.department,
+        posted: job.posted,
+        description: job.description,
+        responsibilities: [
+          "পজিশন অনুসারে দায়িত্ব পালন",
+          "টিমের সাথে সমন্বয় করে কাজ করা",
+          "প্রোজেক্ট ও টাস্ক সম্পন্ন করা",
+          "রিপোর্টিং ও ডকুমেন্টেশন",
+          "সমস্যা সমাধান ও উন্নয়ন কার্যক্রম",
+        ],
+        qualifications: [
+          "সংশ্লিষ্ট ক্ষেত্রে স্নাতক ডিগ্রি",
+          "অভিজ্ঞতা ও দক্ষতা",
+          "টিমওয়ার্ক ও যোগাযোগ দক্ষতা",
+          "সমস্যা সমাধানে দক্ষতা",
+          "উদ্ভাবনী চিন্তাধারা",
+        ],
+        benefits: [
+          "আকর্ষণীয় বেতন ও বেনিফিট প্যাকেজ",
+          "প্রতিযোগিতামূলক স্বাস্থ্য বীমা",
+          "পেশাদার বিকাশের সুযোগ",
+          "অনন্য কর্পোরেট সংস্কৃতি",
+          "হাইব্রিড কাজের পরিবেশ",
+        ],
+      };
+    }
+  });
 
   // মোডাল ইভেন্ট ইনিশিয়ালাইজ করার ফাংশন
   function initializeModalEvents() {
@@ -598,6 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   }
+
   // জব ডিটেইলস মোডাল দেখানোর ফাংশন
   function showJobDetails(jobId) {
     const jobData = jobDetailsData[jobId];
@@ -614,7 +829,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     jobTypeModal.textContent = jobData.type;
     jobTypeModal.className = `job-type-modal ${
-      jobData.type === "ফুল-টাইম" ? "full-time" : jobData.type.toLowerCase()
+      jobData.type === "ফুল-টাইম"
+        ? "full-time"
+        : jobData.type === "পার্ট-টাইম"
+        ? "part-time"
+        : jobData.type === "কন্ট্রাক্ট"
+        ? "contract"
+        : jobData.type === "ইন্টার্নশিপ"
+        ? "internship"
+        : jobData.type.toLowerCase()
     }`;
     jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${jobData.location}`;
     jobDepartment.innerHTML = `<i class="fas fa-building"></i> ${jobData.department}`;
@@ -695,7 +918,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // আবেদন সফল মোডাল দেখানোর ফাংশন
   function showApplicationSuccess() {
     // র‍্যান্ডম আবেদন আইডি জেনারেট করুন
-    const applicationId = `BK-${new Date().getFullYear()}-${Math.floor(
+    const applicationId = `SP-${new Date().getFullYear()}-${Math.floor(
       10000 + Math.random() * 90000
     )}`;
     document.getElementById("application-id").textContent = applicationId;
@@ -704,9 +927,29 @@ document.addEventListener("DOMContentLoaded", function () {
     showModal(applicationSuccessModal);
   }
 
-  // উন্নত মোডাল ফাংশনালিটি - ঠিক করা
+  // Enhanced modal functionality with animations and improved UX
   function showModal(modal) {
     if (!modal) return;
+
+    // Create backdrop if not exists
+    if (!document.querySelector(".modal-backdrop")) {
+      const backdrop = document.createElement("div");
+      backdrop.className = "modal-backdrop";
+      document.body.appendChild(backdrop);
+
+      // Fade in backdrop
+      setTimeout(() => {
+        backdrop.style.opacity = "1";
+      }, 10);
+
+      // Close modal when clicking on backdrop
+      backdrop.addEventListener("click", function () {
+        const activeModal = document.querySelector(".modal.active");
+        if (activeModal) {
+          hideModal(activeModal);
+        }
+      });
+    }
 
     // প্রথমে CSS display:block করুন তবে এখনো অদৃশ্য রাখুন
     modal.style.display = "block";
@@ -714,15 +957,41 @@ document.addEventListener("DOMContentLoaded", function () {
     // একটি রিফ্লো ফোরস করুন যাতে অ্যানিমেশন কাজ করে
     modal.offsetHeight;
 
+    // Add entrance animation to modal content
+    const modalContent = modal.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.style.animation = "modalEntrance 0.4s ease forwards";
+    }
+
     // তারপর active ক্লাস যোগ করুন অ্যানিমেশন ট্রিগার করতে
     modal.classList.add("active");
 
     // বডি স্ক্রল বন্ধ করুন
     document.body.style.overflow = "hidden";
+
+    // Add escape key listener
+    document.addEventListener("keydown", handleEscapeKey);
   }
 
   function hideModal(modal) {
     if (!modal) return;
+
+    // Start exit animation
+    const modalContent = modal.querySelector(".modal-content");
+    if (modalContent) {
+      modalContent.style.animation = "modalExit 0.3s ease forwards";
+    }
+
+    // Remove modal-backdrop
+    const backdrop = document.querySelector(".modal-backdrop");
+    if (backdrop) {
+      backdrop.style.opacity = "0";
+      setTimeout(() => {
+        if (backdrop.parentNode) {
+          backdrop.parentNode.removeChild(backdrop);
+        }
+      }, 300);
+    }
 
     // active ক্লাস সরিয়ে ফেলুন ফেড আউট অ্যানিমেশন শুরু করতে
     modal.classList.remove("active");
@@ -731,10 +1000,24 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
       modal.style.display = "none";
       document.body.style.overflow = "";
+
+      // Remove escape key listener
+      document.removeEventListener("keydown", handleEscapeKey);
     }, 300);
   }
 
+  // Handle escape key press to close modal
+  function handleEscapeKey(e) {
+    if (e.key === "Escape") {
+      const activeModal = document.querySelector(".modal.active");
+      if (activeModal) {
+        hideModal(activeModal);
+      }
+    }
+  }
+
   // মোডাল বন্ধ বাটন ক্লিক করলে
+  const modalCloseBtns = document.querySelectorAll(".modal-close");
   modalCloseBtns.forEach((btn) => {
     btn.addEventListener("click", function () {
       const modal = this.closest(".modal");
@@ -742,15 +1025,117 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // মোডাল বাইরে ক্লিক করলে বন্ধ করুন
-  window.addEventListener("click", function (e) {
-    if (e.target.classList.contains("modal")) {
-      hideModal(e.target);
+  // Add CSS for modal enhancements
+  const styleEl = document.createElement("style");
+  styleEl.textContent = `
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(28, 46, 88, 0.8);
+      backdrop-filter: blur(5px);
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
-  });
-
-  // মোডাল ইভেন্ট ইনিশিয়ালাইজ করুন
-  initializeModalEvents();
+    
+    @keyframes modalEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    @keyframes modalExit {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 50px 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(28, 46, 88, 0.1);
+    }
+    
+    .no-results-icon {
+      font-size: 3rem;
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+    
+    .no-results h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    
+    .no-results p {
+      margin-bottom: 20px;
+      color: var(--text-medium);
+    }
+    
+    .filtering-tips {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 30px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .tip-icon {
+      font-size: 2rem;
+      color: #ffc107;
+      flex-shrink: 0;
+    }
+    
+    .tip-content h4 {
+      color: white;
+      margin-bottom: 8px;
+      font-size: 1.2rem;
+    }
+    
+    .tip-content p {
+      margin: 0;
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+    
+    .search-results-stats {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: white;
+      display: inline-block;
+      margin-bottom: 20px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Update job-opportunities background color to medium blue */
+    .job-opportunities {
+      background-color: #3959a5;
+    }
+  `;
+  document.head.appendChild(styleEl);
 
   // উপরে যাওয়ার বাটন
   const backToTopBtn = document.getElementById("back-to-top");
@@ -819,3 +1204,4 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("scroll", checkSections);
   window.addEventListener("load", checkSections);
 });
+ 

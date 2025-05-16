@@ -127,9 +127,9 @@ a {
 .logo-container:after {
   content: "";
   position: absolute;
-  top: 50%;
+  top: 30%;
   right: -12px;
-  height: 30px;
+  height: 50px;
   width: 1px;
   background-color: rgba(255, 255, 255, 0.2);
   transform: translateY(-50%);
@@ -663,7 +663,7 @@ a {
   }
 
   .logo {
-    height: 40px;
+    height: 60px;
   }
 
   .bangla-bkash {

@@ -19,27 +19,27 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       id: "delta-life",
       name: "Delta Life",
-      logo: "images/delta-life-logo.png",
+      logo: "/public/images/Insurance/ins1.jpg",
     },
     {
       id: "guardian-life",
       name: "Guardian Life",
-      logo: "images/guardian-life-logo.png",
+      logo: "/public/images/Insurance/ins2.jpg",
     },
     {
       id: "nrb-islamic",
       name: "NRB Islamic",
-      logo: "images/nrb-islamic-logo.png",
+      logo: "/public/images/Insurance/ins3.jpg",
     },
     {
       id: "akij-takaful",
       name: "Akij Takaful",
-      logo: "images/akij-takaful-logo.png",
+      logo: "/public/images/Insurance/ins4.jpg",
     },
     {
       id: "jamuna-life",
       name: "Jamuna Life",
-      logo: "images/jamuna-life-logo.png",
+      logo: "/public/images/Insurance/ins5.jpg",
     },
   ];
 

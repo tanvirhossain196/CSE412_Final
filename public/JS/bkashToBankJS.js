@@ -31,31 +31,31 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       id: 1,
       name: "Agrani Bank",
-      logo: "/public/images/banks/agrani-bank.png",
+      logo: "/public/images/sptobank/sp1.jpg",
       hasBadge: true,
     },
     {
       id: 2,
       name: "AB Bank Limited",
-      logo: "/public/images/banks/ab-bank.png",
+      logo: "/public/images/sptobank/sp2.jpg",
       hasBadge: true,
     },
     {
       id: 3,
       name: "Bangladesh Development Bank Limited",
-      logo: "/public/images/banks/bdbl.png",
+      logo: "/public/images/sptobank/sp3.jpg",
       hasBadge: false,
     },
     {
       id: 4,
       name: "Community Bank Bangladesh",
-      logo: "/public/images/banks/community-bank.png",
+      logo: "/public/images/sptobank/sp4.jpg",
       hasBadge: true,
     },
     {
       id: 5,
       name: "DHAKA BANK LIMITED",
-      logo: "/public/images/banks/dhaka-bank.png",
+      logo: "/public/images/sptobank/sp5.jpg",
       hasBadge: true,
     },
   ];
