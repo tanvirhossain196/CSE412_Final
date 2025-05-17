@@ -1,5 +1,8 @@
-// Career Page JavaScript - Enhanced with improved filtering functionality
+// Career Page JavaScript - Enhanced with improved filtering functionality and fixed modals
 document.addEventListener("DOMContentLoaded", function () {
+  // Call the modal improvements function
+  addModalImprovements();
+
   // Mobile Menu Toggle
   const mobileMenuToggle = document.querySelector(".mobile-menu-toggle");
   const sidebarMenu = document.querySelector(".sidebar-menu");
@@ -365,31 +368,36 @@ document.addEventListener("DOMContentLoaded", function () {
     // Apply all filters - more explicit filtering to ensure correct matching
     filteredJobs = allJobs.filter((job) => {
       // Check if department matches - the key part for department filtering
-      const matchesDepartment = department === "" || 
-        job.department.toLowerCase() === department;
+      const matchesDepartment =
+        department === "" || job.department.toLowerCase() === department;
 
       // Check other filter criteria
-      const matchesLocation = location === "" || 
-        job.location.toLowerCase() === location;
-        
-      const matchesJobType = jobType === "" || 
-        job.type.toLowerCase() === jobType;
-        
-      const matchesSearch = searchTerm === "" || 
-        job.title.toLowerCase().includes(searchTerm) || 
+      const matchesLocation =
+        location === "" || job.location.toLowerCase() === location;
+
+      const matchesJobType =
+        jobType === "" || job.type.toLowerCase() === jobType;
+
+      const matchesSearch =
+        searchTerm === "" ||
+        job.title.toLowerCase().includes(searchTerm) ||
         job.description.toLowerCase().includes(searchTerm);
 
       // Job must match ALL selected filters
-      return matchesSearch && matchesDepartment && matchesLocation && matchesJobType;
+      return (
+        matchesSearch && matchesDepartment && matchesLocation && matchesJobType
+      );
     });
 
     // Add visual highlighting for the filtered department
     if (department) {
       // Add a class to the job listings container for styling
       jobListingsContainer.setAttribute("data-filtered-department", department);
-      
+
       // Log the filtered jobs count for debugging
-      console.log(`Found ${filteredJobs.length} jobs in ${department} department`);
+      console.log(
+        `Found ${filteredJobs.length} jobs in ${department} department`
+      );
     } else {
       jobListingsContainer.removeAttribute("data-filtered-department");
     }
@@ -400,18 +408,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Render the filtered jobs
     renderJobs();
-    
+
     // Update results count text
     if (searchResultsStats && resultsCountElement) {
       if (filteredJobs.length > 0) {
         searchResultsStats.style.display = "block";
         resultsCountElement.textContent = filteredJobs.length;
-        
+
         // Add department name to results if filtering by department
         const statsText = searchResultsStats.querySelector("p");
         if (statsText) {
           if (department) {
-            const departmentName = departmentSelect.options[departmentSelect.selectedIndex].text;
+            const departmentName =
+              departmentSelect.options[departmentSelect.selectedIndex].text;
             statsText.innerHTML = `<span id="results-count">${filteredJobs.length}</span> টি <strong>${departmentName}</strong> বিভাগের চাকরির সুযোগ পাওয়া গেছে`;
           } else {
             statsText.innerHTML = `<span id="results-count">${filteredJobs.length}</span> টি চাকরির সুযোগ পাওয়া গেছে`;
@@ -424,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Update filtering tips visibility
     updateFilteringTipsVisibility();
-    
+
     // Add visual feedback when filtering
     highlightActiveFilters();
   }
@@ -433,23 +442,23 @@ document.addEventListener("DOMContentLoaded", function () {
   function highlightActiveFilters() {
     // Department filter
     if (departmentSelect.value) {
-      departmentSelect.classList.add('active-filter');
+      departmentSelect.classList.add("active-filter");
     } else {
-      departmentSelect.classList.remove('active-filter');
+      departmentSelect.classList.remove("active-filter");
     }
-    
+
     // Location filter
     if (locationSelect.value) {
-      locationSelect.classList.add('active-filter');
+      locationSelect.classList.add("active-filter");
     } else {
-      locationSelect.classList.remove('active-filter');
+      locationSelect.classList.remove("active-filter");
     }
-    
+
     // Job type filter
     if (jobTypeSelect.value) {
-      jobTypeSelect.classList.add('active-filter');
+      jobTypeSelect.classList.add("active-filter");
     } else {
-      jobTypeSelect.classList.remove('active-filter');
+      jobTypeSelect.classList.remove("active-filter");
     }
   }
 
@@ -490,23 +499,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const jobCard = document.createElement("div");
         jobCard.className = "job-card";
         jobCard.dataset.jobId = job.id;
-        
+
         // Add department, location and type data attributes for filtering and highlighting
         jobCard.dataset.department = job.department.toLowerCase();
         jobCard.dataset.location = job.location.toLowerCase();
         jobCard.dataset.jobType = job.type.toLowerCase();
-        
+
         // Add highlighting classes based on filters
-        if (selectedDepartment && job.department.toLowerCase() === selectedDepartment) {
-          jobCard.classList.add('highlighted-department');
+        if (
+          selectedDepartment &&
+          job.department.toLowerCase() === selectedDepartment
+        ) {
+          jobCard.classList.add("highlighted-department");
         }
-        
-        if (selectedLocation && job.location.toLowerCase() === selectedLocation) {
-          jobCard.classList.add('highlighted-location');
+
+        if (
+          selectedLocation &&
+          job.location.toLowerCase() === selectedLocation
+        ) {
+          jobCard.classList.add("highlighted-location");
         }
-        
+
         if (selectedJobType && job.type.toLowerCase() === selectedJobType) {
-          jobCard.classList.add('highlighted-jobtype');
+          jobCard.classList.add("highlighted-jobtype");
         }
 
         jobCard.innerHTML = `
@@ -581,22 +596,22 @@ document.addEventListener("DOMContentLoaded", function () {
     filteredJobs = [...allJobs];
     visibleJobsCount = initialJobsCount;
     isShowingAll = false;
-    
+
     // Remove any department highlighting
     jobListingsContainer.removeAttribute("data-filtered-department");
-    
+
     // Remove active filter classes
-    departmentSelect.classList.remove('active-filter');
-    locationSelect.classList.remove('active-filter');
-    jobTypeSelect.classList.remove('active-filter');
-    
+    departmentSelect.classList.remove("active-filter");
+    locationSelect.classList.remove("active-filter");
+    jobTypeSelect.classList.remove("active-filter");
+
     renderJobs();
-    
+
     // Hide filtering tips after reset
     if (filteringTips) {
       filteringTips.style.display = "none";
     }
-    
+
     // Update search results stats
     if (searchResultsStats) {
       const statsText = searchResultsStats.querySelector("p");
@@ -615,7 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else {
         filteringTips.style.display = "none";
       }
-      
+
       // Set filtering tips text color to white
       filteringTips.style.color = "white";
       const tipHeading = filteringTips.querySelector("h4");
@@ -695,58 +710,58 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event listeners for filters should be updated to call filterJobs immediately:
     if (departmentSelect) {
-      departmentSelect.addEventListener("change", function() {
+      departmentSelect.addEventListener("change", function () {
         filterJobs();
-        
+
         // Visual feedback
         if (this.value) {
-          this.classList.add('active-filter');
-          
+          this.classList.add("active-filter");
+
           // Scroll to results
           window.scrollTo({
             top: document.getElementById("job-opportunities").offsetTop - 100,
             behavior: "smooth",
           });
         } else {
-          this.classList.remove('active-filter');
+          this.classList.remove("active-filter");
         }
       });
     }
 
     if (locationSelect) {
-      locationSelect.addEventListener("change", function() {
+      locationSelect.addEventListener("change", function () {
         filterJobs();
-        
+
         // Visual feedback
         if (this.value) {
-          this.classList.add('active-filter');
-          
+          this.classList.add("active-filter");
+
           // Scroll to results
           window.scrollTo({
             top: document.getElementById("job-opportunities").offsetTop - 100,
             behavior: "smooth",
           });
         } else {
-          this.classList.remove('active-filter');
+          this.classList.remove("active-filter");
         }
       });
     }
 
     if (jobTypeSelect) {
-      jobTypeSelect.addEventListener("change", function() {
+      jobTypeSelect.addEventListener("change", function () {
         filterJobs();
-        
+
         // Visual feedback
         if (this.value) {
-          this.classList.add('active-filter');
-          
+          this.classList.add("active-filter");
+
           // Scroll to results
           window.scrollTo({
             top: document.getElementById("job-opportunities").offsetTop - 100,
             behavior: "smooth",
           });
         } else {
-          this.classList.remove('active-filter');
+          this.classList.remove("active-filter");
         }
       });
     }
@@ -998,7 +1013,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!jobData) return;
 
     const jobDetailsModal = document.querySelector(".job-details-modal");
-    
+
     // Set modal title
     const jobModalTitle = document.getElementById("job-modal-title");
     if (jobModalTitle) {
@@ -1025,10 +1040,13 @@ document.addEventListener("DOMContentLoaded", function () {
           : jobData.type.toLowerCase()
       }`;
     }
-    
-    if (jobLocation) jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${jobData.location}`;
-    if (jobDepartment) jobDepartment.innerHTML = `<i class="fas fa-building"></i> ${jobData.department}`;
-    if (jobDate) jobDate.innerHTML = `<i class="fas fa-calendar-alt"></i> ${jobData.posted}`;
+
+    if (jobLocation)
+      jobLocation.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${jobData.location}`;
+    if (jobDepartment)
+      jobDepartment.innerHTML = `<i class="fas fa-building"></i> ${jobData.department}`;
+    if (jobDate)
+      jobDate.innerHTML = `<i class="fas fa-calendar-alt"></i> ${jobData.posted}`;
 
     // Set job description
     const jobDescription = document.querySelector(".job-description");
@@ -1050,7 +1068,9 @@ document.addEventListener("DOMContentLoaded", function () {
         qualificationsHTML = `
           <h3>যোগ্যতা</h3>
           <ul>
-              ${jobData.qualifications.map((item) => `<li>${item}</li>`).join("")}
+              ${jobData.qualifications
+                .map((item) => `<li>${item}</li>`)
+                .join("")}
           </ul>
         `;
       }
@@ -1089,10 +1109,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const jobData = jobDetailsData[jobId];
     if (!jobData) return;
 
-    const jobApplicationModal = document.querySelector(".job-application-modal");
-    
+    const jobApplicationModal = document.querySelector(
+      ".job-application-modal"
+    );
+
     // Set modal title
-    const applicationModalTitle = document.getElementById("application-modal-title");
+    const applicationModalTitle = document.getElementById(
+      "application-modal-title"
+    );
     if (applicationModalTitle) {
       applicationModalTitle.textContent = `আবেদন করুন - ${jobData.title}`;
     }
@@ -1101,7 +1125,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const jobApplicationForm = document.getElementById("job-application-form");
     if (jobApplicationForm) {
       jobApplicationForm.reset();
-      
+
       const fileName = document.querySelector(".file-name");
       if (fileName) {
         fileName.textContent = "কোনো ফাইল নির্বাচন করা হয়নি";
@@ -1114,13 +1138,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Enhanced application success modal display
   function showApplicationSuccess() {
-    const applicationSuccessModal = document.querySelector(".application-success-modal");
-    
+    const applicationSuccessModal = document.querySelector(
+      ".application-success-modal"
+    );
+
     // Generate random application ID
     const applicationId = `SP-${new Date().getFullYear()}-${Math.floor(
       10000 + Math.random() * 90000
     )}`;
-    
+
     const applicationIdElement = document.getElementById("application-id");
     if (applicationIdElement) {
       applicationIdElement.textContent = applicationId;
@@ -1140,9 +1166,9 @@ document.addEventListener("DOMContentLoaded", function () {
       backdrop.className = "modal-backdrop";
       document.body.appendChild(backdrop);
 
-      // Enhanced backdrop appearance
+      // Enhanced backdrop appearance with specified color
+      backdrop.style.backgroundColor = "rgba(23, 36, 72, 0.85)"; // #172448 with opacity
       backdrop.style.backdropFilter = "blur(8px)";
-      backdrop.style.backgroundColor = "rgba(28, 46, 88, 0.85)";
 
       // Fade in backdrop with smoother animation
       setTimeout(() => {
@@ -1158,8 +1184,10 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // First set display:block but keep it invisible
-    modal.style.display = "block";
+    // Set up modal for centered fixed position
+    modal.style.display = "flex";
+    modal.style.justifyContent = "center";
+    modal.style.alignItems = "center";
 
     // Force a reflow so animation works
     modal.offsetHeight;
@@ -1167,7 +1195,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add enhanced entrance animation to modal content
     const modalContent = modal.querySelector(".modal-content");
     if (modalContent) {
-      modalContent.style.animation = "modalEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards";
+      modalContent.style.animation =
+        "modalEntrance 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards";
       modalContent.style.boxShadow = "0 10px 40px rgba(0, 0, 0, 0.3)";
       modalContent.style.border = "1px solid rgba(255, 255, 255, 0.1)";
     }
@@ -1226,17 +1255,139 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Setup modal close buttons
-  const modalCloseBtns = document.querySelectorAll(".modal-close");
-  modalCloseBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const modal = this.closest(".modal");
-      hideModal(modal);
+  // Add CSS and modal improvements
+  function addModalImprovements() {
+    // Add CSS for modal improvements
+    const modalImprovementStyles = document.createElement("style");
+    modalImprovementStyles.textContent = `
+      /* Fixed modal with scrollable content */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(23, 36, 72, 0.8); /* #172448 with opacity */
+        z-index: 1000;
+        overflow: hidden;
+        padding: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        backdrop-filter: blur(8px);
+      }
+      
+      .modal.active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+      }
+      
+      .modal-content {
+        background-color: white;
+        margin: 0;
+        max-width: 800px;
+        width: 90%;
+        border-radius: 15px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        position: relative;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      
+      .modal-header {
+        padding: 20px 30px;
+        border-bottom: none;
+        position: sticky;
+        top: 0;
+        background: linear-gradient(to right, #3959a5, #4a76e8);
+        z-index: 10;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 15px 15px 0 0;
+        flex-shrink: 0;
+      }
+      
+      .modal-body {
+        padding: 30px;
+        overflow-y: auto;
+        flex-grow: 1;
+        max-height: calc(85vh - 70px); /* 70px accounts for the header approximately */
+      }
+      
+      /* Modal backdrop */
+      .modal-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(23, 36, 72, 0.8);
+        backdrop-filter: blur(8px);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      
+      /* Enhanced Animations */
+      @keyframes modalEntrance {
+        from {
+          opacity: 0;
+          transform: translateY(50px) scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      @keyframes modalExit {
+        from {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+        to {
+          opacity: 0;
+          transform: translateY(30px) scale(0.95);
+        }
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .modal-content {
+          width: 95%;
+          max-height: 80vh;
+        }
+        
+        .modal-header {
+          padding: 15px 20px;
+        }
+        
+        .modal-body {
+          padding: 20px;
+        }
+      }
+    `;
+    document.head.appendChild(modalImprovementStyles);
+
+    // Setup modal close buttons
+    const modalCloseBtns = document.querySelectorAll(".modal-close");
+    modalCloseBtns.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const modal = this.closest(".modal");
+        hideModal(modal);
+      });
     });
-  });
+  }
 
   // Add CSS for highlighting filtered jobs
-  const highlightingStyles = document.createElement('style');
+  const highlightingStyles = document.createElement("style");
   highlightingStyles.textContent = `
     /* Department highlighting */
     .job-card.highlighted-department {
@@ -1307,73 +1458,6 @@ document.addEventListener("DOMContentLoaded", function () {
       font-weight: 700;
       color: #ffeb3b;
       font-size: 1.2em;
-    }
-    
-    /* Modal enhancements */
-    .modal-backdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(28, 46, 88, 0.8);
-      backdrop-filter: blur(8px);
-      z-index: 999;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    /* Enhanced modal animations */
-    @keyframes modalEntrance {
-      from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-    
-    @keyframes modalExit {
-      from {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-      to {
-        opacity: 0;
-        transform: translateY(30px) scale(0.95);
-      }
-    }
-    
-    /* Add subtle glass effect to modals */
-    .modal-content {
-      border-radius: 15px !important;
-      border: 1px solid rgba(255, 255, 255, 0.1) !important;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3) !important;
-      overflow: hidden;
-    }
-    
-    .modal-header {
-      background: linear-gradient(to right, #3959a5, #4a76e8) !important;
-      color: white !important;
-      border-bottom: none !important;
-    }
-    
-    .modal-header h2 {
-      color: white !important;
-      font-size: 1.6rem !important;
-    }
-    
-    .modal-close {
-      color: white !important;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-    }
-    
-    .modal-close:hover {
-      opacity: 1;
-      transform: rotate(90deg);
     }
     
     /* Improve no results message */
@@ -1511,7 +1595,7 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
-    
+
     // Enhanced styling
     backToTopBtn.style.backgroundColor = "#4a76e8";
     backToTopBtn.style.color = "white";
