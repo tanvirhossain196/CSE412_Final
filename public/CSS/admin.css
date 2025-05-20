@@ -1302,18 +1302,19 @@ html[data-theme="dark"] .search-results {
 
 .fund-transfer-container {
   width: 100%;
-  max-width: 580px;
+  max-width: 600px;
   margin: 0 auto;
   flex: 1;
   overflow: hidden; /* Prevents container from scrolling */
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.5s ease;
 }
 
 .fund-transfer-step {
   background-color: white;
   border-radius: var(--border-radius-xl);
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: var(--shadow-lg);
   animation: fadeIn 0.3s ease;
   border: 1px solid var(--color-gray-200);
@@ -1322,6 +1323,7 @@ html[data-theme="dark"] .search-results {
   overflow: hidden; /* Hide overflow */
   display: flex;
   flex-direction: column;
+ 
 }
 
 html[data-theme="dark"] .fund-transfer-step {
@@ -1894,7 +1896,7 @@ html[data-theme="dark"] .card-header.purple {
 }
 
 .card-body {
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem 1.8rem;
 }
 
 /* Activity List */
@@ -3160,12 +3162,8 @@ html[data-theme="dark"] .db-stat:hover {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .modal.hidden {
@@ -3576,20 +3574,13 @@ html[data-theme="dark"] .modal-footer {
   border-color: var(--color-gray-300);
 }
 
-/* Additional CSS for enhanced Send Money to Agent page */
-.fund-transfer-container {
-  width: 100%;
-  max-width: 580px;
-  margin: 0 auto;
-}
 
 .fund-transfer-step {
-  background-color: white;
-  border-radius: var(--border-radius-xl);
-  padding: 2rem;
-  box-shadow: var(--shadow-lg);
-  animation: fadeIn 0.3s ease;
-  border: 1px solid var(--color-gray-200);
+  background: linear-gradient(to bottom right, #ffffff, #f9fafb);
+  border-radius: 1rem;
+  padding: 3rem;
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 10px 10px -5px rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
   transition: all 0.3s ease;
 }
 

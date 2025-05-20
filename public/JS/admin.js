@@ -280,8 +280,28 @@ function setupFundTransferFlow() {
 }
 
 function findAgentByNumber(number) {
-  const allAgents = [...agents, ...pendingAgentRequests];
-  return allAgents.find((agent) => agent.phone === number);
+  const agents = [
+    { name: "Rahim Ali", phone: "01712345679", initial: "R" },
+    { name: "Sabina Yasmin", phone: "01812345679", initial: "S" },
+    { name: "Mahfuz Rahman", phone: "01912345679", initial: "M" },
+  ];
+
+  // Check known agents
+  const agent = agents.find((a) => a.phone === number);
+  if (agent) {
+    return agent;
+  }
+
+  // For valid numbers, create a generic agent object
+  if (/^01[3-9]\d{8}$/.test(number)) {
+    return {
+      name: "Agent",
+      phone: number,
+      initial: number.charAt(2).toUpperCase(),
+    };
+  }
+
+  return null;
 }
 
 function moveToAmountStep(agent) {
@@ -849,13 +869,8 @@ function handleLogout() {
   // Clear login state
   localStorage.removeItem("isLoggedIn");
 
-  // Show login form, hide dashboard
-  document.getElementById("login-container").classList.remove("hidden");
-  document.getElementById("admin-container").classList.add("hidden");
-
-  // Clear login form inputs
-  document.getElementById("username").value = "";
-  document.getElementById("password").value = "";
+  // Redirect to login page
+  window.location.href = "index.html";
 }
 
 function checkLoginState() {
@@ -877,6 +892,115 @@ function checkLoginState() {
     // Clear login form inputs
     document.getElementById("username").value = "";
     document.getElementById("password").value = "";
+  }
+}
+
+// Update the validation function for agent numbers
+function validateAgentNumber(number) {
+  const agentNumberError = document.getElementById("agent-number-error");
+
+  // Clear previous error
+  agentNumberError.style.display = "none";
+
+  // Check if empty
+  if (!number) {
+    showError(agentNumberError, "Agent number is required");
+    return false;
+  }
+
+  // Check if 11 digits
+  if (number.length !== 11) {
+    showError(agentNumberError, "Agent number must be 11 digits");
+    return false;
+  }
+
+  // Check if starts with valid BD prefix (013-019)
+  if (!/^01[3-9]/.test(number)) {
+    showError(
+      agentNumberError,
+      "Must start with a valid BD operator prefix (013-019)"
+    );
+    return false;
+  }
+
+  return true;
+}
+
+function showError(element, message) {
+  if (element) {
+    element.textContent = message;
+    element.style.display = "block";
+  }
+}
+
+function setupAgentNumberInput() {
+  const agentNumberInput = document.getElementById("agent-number");
+  if (agentNumberInput) {
+    agentNumberInput.addEventListener("input", function () {
+      // Remove non-numeric characters
+      this.value = this.value.replace(/[^0-9]/g, "");
+
+      // Enforce 11 digit limit
+      if (this.value.length > 11) {
+        this.value = this.value.substring(0, 11);
+      }
+
+      // Show validation messages as user types
+      const agentNumberError = document.getElementById("agent-number-error");
+      if (this.value.length > 0 && !this.value.startsWith("01")) {
+        showError(agentNumberError, "Number must start with 01");
+      } else if (
+        this.value.length === 3 &&
+        !["013", "014", "015", "016", "017", "018", "019"].includes(this.value)
+      ) {
+        showError(
+          agentNumberError,
+          "Must be a valid BD operator prefix (013-019)"
+        );
+      } else if (this.value.length > 0 && this.value.length < 11) {
+        showError(agentNumberError, "Number must be 11 digits");
+      } else {
+        agentNumberError.style.display = "none";
+      }
+    });
+  }
+}
+
+// Add this to your admin.js file or include it in a script tag
+function handleAgentNumberKeyPress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    const agentNumber = document.getElementById("agent-number").value.trim();
+
+    if (validateAgentNumber(agentNumber)) {
+      // Find if it's one of our recent agents
+      const agent = findAgentByNumber(agentNumber);
+      let agentName, agentInitial;
+
+      if (agent) {
+        agentName = agent.name;
+        agentInitial = agent.initial;
+      } else {
+        // For any other valid number, create a generic agent
+        agentName = "Agent";
+        agentInitial = agentNumber.charAt(2).toUpperCase();
+      }
+
+      // Update the display for the next step
+      document.getElementById("display-agent-name").textContent = agentName;
+      document.getElementById("display-agent-number").textContent = agentNumber;
+      document
+        .getElementById("selected-agent-info")
+        .querySelector(".agent-avatar").textContent = agentInitial;
+
+      // Update summary information too
+      document.getElementById("summary-agent-name").textContent = agentName;
+      document.getElementById("summary-agent-number").textContent = agentNumber;
+
+      // Hide agent selection step, show amount input step
+      document.getElementById("agent-selection-step").classList.add("hidden");
+      document.getElementById("amount-input-step").classList.remove("hidden");
+    }
   }
 }
 

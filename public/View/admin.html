@@ -814,17 +814,14 @@
                             </section>
                         </section>
 
-                        <!-- Fund Transfer Tab -->
+
                         <!-- Fund Transfer Tab -->
                         <section id="fundTransfer-tab" class="tab-content hidden">
-                            <div class="tab-header">
-                                <h2>Send Money to Agent</h2>
-                            </div>
-
                             <!-- Agent Money Transfer Section -->
                             <section class="card">
-                                <header class="card-header blue">
-                                    <h3>
+                                <header class="card-header"
+                                    style="background: linear-gradient(to right, #8e27af, #7b1fa2);">
+                                    <h3 style="color: white;">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                             stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send">
@@ -838,11 +835,19 @@
                                     <div class="fund-transfer-container" id="fund-transfer-container">
                                         <!-- Initial screen: Agent Selection -->
                                         <div class="fund-transfer-step" id="agent-selection-step">
+                                            <div class="step-header">
+                                                <h4 style="color: #8e27af; font-weight: 600;">Select Agent</h4>
+                                                <div style="text-align: right;">
+                                                    <img src="/public/images/locallogo.png" alt="SurePay Logo"
+                                                        style="height: 40px; width: auto;">
+                                                </div>
+                                            </div>
+
                                             <div class="fund-transfer-form">
                                                 <div class="form-group">
                                                     <label for="agent-number">Agent Number</label>
                                                     <div class="input-icon-wrapper">
-                                                        <div class="input-icon">
+                                                        <div class="input-icon" style="color: #8e27af;">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                 height="20" viewBox="0 0 24 24" fill="none"
                                                                 stroke="currentColor" stroke-width="2"
@@ -853,10 +858,14 @@
                                                             </svg>
                                                         </div>
                                                         <input type="text" id="agent-number"
-                                                            placeholder="Enter agent phone number">
+                                                            placeholder="Enter agent phone number"
+                                                            pattern="01[3-9]\d{8}$" maxlength="11" required
+                                                            onkeydown="handleAgentNumberKeyPress(event)">
                                                     </div>
+                                                    <div class="error-message" id="agent-number-error"></div>
                                                 </div>
-                                                <button id="proceed-to-amount" class="action-button blue">
+                                                <button id="proceed-to-amount" class="action-button"
+                                                    style="background: linear-gradient(to right, #8e27af, #6a1b9a); color: white;">
                                                     <span>Next</span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -871,17 +880,24 @@
                                             <!-- Scrollable area for recent agents -->
                                             <div class="scrollable-content">
                                                 <div class="recent-agents">
-                                                    <h4>Recent Agents</h4>
+                                                    <h4
+                                                        style="color: #8e27af; border-left: 3px solid #8e27af; padding-left: 10px;">
+                                                        Recent Agents
+                                                    </h4>
                                                     <div class="recent-agents-list">
                                                         <div class="recent-agent-item" data-number="01712345679">
-                                                            <div class="agent-avatar">R</div>
+                                                            <div class="agent-avatar"
+                                                                style="background: linear-gradient(135deg, #8e27af, #6a1b9a);">
+                                                                R</div>
                                                             <div class="agent-info">
                                                                 <div class="agent-name">Rahim Ali</div>
                                                                 <div class="agent-number">01712345679</div>
                                                             </div>
                                                         </div>
                                                         <div class="recent-agent-item" data-number="01812345679">
-                                                            <div class="agent-avatar">S</div>
+                                                            <div class="agent-avatar"
+                                                                style="background: linear-gradient(135deg, #8e27af, #6a1b9a);">
+                                                                S</div>
                                                             <div class="agent-info">
                                                                 <div class="agent-name">Sabina Yasmin</div>
                                                                 <div class="agent-number">01812345679</div>
@@ -895,7 +911,8 @@
                                         <!-- Step 2: Amount Input -->
                                         <div class="fund-transfer-step hidden" id="amount-input-step">
                                             <div class="step-header">
-                                                <button class="back-button" id="back-to-agent">
+                                                <button class="back-button" id="back-to-agent"
+                                                    style="background: rgba(142, 39, 175, 0.1); color: #8e27af;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -904,11 +921,18 @@
                                                         <path d="M19 12H5" />
                                                     </svg>
                                                 </button>
-                                                <h4>Enter Amount</h4>
+                                                <h4 style="color: #8e27af; font-weight: 600;">Enter Amount</h4>
+                                                <div style="text-align: right;">
+                                                    <img src="/public/images/locallogo.png" alt="SurePay Logo"
+                                                        style="height: 40px; width: auto;">
+                                                </div>
                                             </div>
 
-                                            <div class="selected-agent" id="selected-agent-info">
-                                                <div class="agent-avatar">R</div>
+                                            <div class="selected-agent" id="selected-agent-info"
+                                                style="background: linear-gradient(to right, rgba(142, 39, 175, 0.05), rgba(142, 39, 175, 0.1));">
+                                                <div class="agent-avatar"
+                                                    style="background: linear-gradient(135deg, #8e27af, #6a1b9a);">R
+                                                </div>
                                                 <div class="agent-details">
                                                     <div class="agent-name" id="display-agent-name">Rahim Ali</div>
                                                     <div class="agent-number" id="display-agent-number">01712345679
@@ -921,7 +945,7 @@
                                                     <div class="form-group">
                                                         <label for="transfer-amount">Amount (BDT)</label>
                                                         <div class="input-icon-wrapper">
-                                                            <div class="input-icon">
+                                                            <div class="input-icon" style="color: #8e27af;">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                     height="20" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
@@ -934,10 +958,12 @@
                                                                 </svg>
                                                             </div>
                                                             <input type="number" id="transfer-amount"
-                                                                placeholder="Enter amount">
+                                                                placeholder="Enter amount" min="1" required>
                                                         </div>
+                                                        <div class="error-message" id="amount-error"></div>
                                                     </div>
-                                                    <button id="proceed-to-pin" class="action-button blue">
+                                                    <button id="proceed-to-pin" class="action-button"
+                                                        style="background: linear-gradient(to right, #8e27af, #6a1b9a); color: white;">
                                                         <span>Next</span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -954,7 +980,8 @@
                                         <!-- Step 3: PIN Verification -->
                                         <div class="fund-transfer-step hidden" id="pin-verification-step">
                                             <div class="step-header">
-                                                <button class="back-button" id="back-to-amount">
+                                                <button class="back-button" id="back-to-amount"
+                                                    style="background: rgba(142, 39, 175, 0.1); color: #8e27af;">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                         viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -963,11 +990,16 @@
                                                         <path d="M19 12H5" />
                                                     </svg>
                                                 </button>
-                                                <h4>Enter PIN</h4>
+                                                <h4 style="color: #8e27af; font-weight: 600;">Enter PIN</h4>
+                                                <div style="text-align: right;">
+                                                    <img src="/public/images/locallogo.png" alt="SurePay Logo"
+                                                        style="height: 40px; width: auto;">
+                                                </div>
                                             </div>
 
                                             <div class="scrollable-content">
-                                                <div class="transaction-summary">
+                                                <div class="transaction-summary"
+                                                    style="background: linear-gradient(to right, rgba(142, 39, 175, 0.03), rgba(142, 39, 175, 0.08));">
                                                     <div class="summary-details">
                                                         <div class="summary-row">
                                                             <div class="summary-label">Agent</div>
@@ -990,7 +1022,7 @@
                                                     <div class="form-group">
                                                         <label for="transaction-pin">PIN</label>
                                                         <div class="input-icon-wrapper">
-                                                            <div class="input-icon">
+                                                            <div class="input-icon" style="color: #8e27af;">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20"
                                                                     height="20" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2"
@@ -1001,10 +1033,13 @@
                                                                 </svg>
                                                             </div>
                                                             <input type="password" id="transaction-pin"
-                                                                placeholder="Enter 5-digit PIN" maxlength="5">
+                                                                placeholder="Enter 5-digit PIN" pattern="\d{5}"
+                                                                maxlength="5" required>
                                                         </div>
+                                                        <div class="error-message" id="pin-error"></div>
                                                     </div>
-                                                    <button id="confirm-transfer" class="action-button green">
+                                                    <button id="confirm-transfer" class="action-button"
+                                                        style="background: linear-gradient(to right, #8e27af, #6a1b9a); color: white;">
                                                         <span>Confirm Transfer</span>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1019,10 +1054,18 @@
 
                                         <!-- Step 4: Success Message -->
                                         <div class="fund-transfer-step hidden" id="success-step">
+                                            <div class="step-header">
+                                                <h4 style="color: #8e27af; font-weight: 600;">Transfer Complete</h4>
+                                                <div style="text-align: right;">
+                                                    <img src="/public/images/locallogo.png" alt="SurePay Logo"
+                                                        style="height: 40px; width: auto;">
+                                                </div>
+                                            </div>
+
                                             <div class="success-animation">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"
-                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"
                                                     class="lucide lucide-check-circle">
                                                     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                                                     <path d="m9 11 3 3L22 4" />
@@ -1031,15 +1074,17 @@
 
                                             <div class="scrollable-content">
                                                 <div class="success-message">
-                                                    <h3>Transfer Successful!</h3>
+                                                    <h3 style="color: #4caf50; font-weight: 700;">Transfer Successful!
+                                                    </h3>
                                                     <p>You have successfully transferred <span
                                                             id="success-amount">৳10,000</span> to <span
                                                             id="success-agent">Rahim Ali</span>.</p>
-                                                    <p class="transaction-id">Transaction ID: <span
-                                                            id="transaction-id">TXN247891356</span></p>
+                                                    <div class="transaction-id"
+                                                        style="background: rgba(142, 39, 175, 0.05);">Transaction ID:
+                                                        <span id="transaction-id">TXN247891356</span></div>
                                                 </div>
 
-                                                <div class="transaction-receipt">
+                                                <div class="transaction-receipt" style="border: 1px dashed #4caf50;">
                                                     <div class="receipt-details">
                                                         <div class="receipt-row">
                                                             <div class="receipt-label">Date & Time</div>
@@ -1062,13 +1107,16 @@
                                                         </div>
                                                         <div class="receipt-row">
                                                             <div class="receipt-label">Status</div>
-                                                            <div class="receipt-value success">Completed</div>
+                                                            <div class="receipt-value success"
+                                                                style="color: #4caf50; background-color: rgba(76, 175, 80, 0.1);">
+                                                                Completed</div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <button id="new-transfer" class="action-button blue">
+                                            <button id="new-transfer" class="action-button"
+                                                style="background: linear-gradient(to right, #8e27af, #6a1b9a); color: white;">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
