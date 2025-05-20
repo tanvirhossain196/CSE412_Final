@@ -137,8 +137,8 @@ body {
 
 /* Logo Image Styles */
 .logo-img {
-  width: 32px;
-  height: 32px;
+  width: 72px;
+  height: 72px;
   object-fit: contain;
 }
 
@@ -341,7 +341,7 @@ body {
 }
 
 .login-logo-icon {
-  background-color: white;
+ 
   padding: 0.75rem;
   border-radius: var(--border-radius-xl);
   box-shadow: var(--shadow-lg);
@@ -791,10 +791,9 @@ html[data-theme="dark"] .sidebar {
 }
 
 .sidebar-logo-icon {
-  background-color: white;
   padding: 0.5rem;
   border-radius: var(--border-radius-xl);
-  box-shadow: var(--shadow-lg);
+  /* box-shadow: var(--shadow-lg); */
   transition: transform 0.3s ease;
 }
 
@@ -1267,6 +1266,348 @@ html[data-theme="dark"] .search-results {
   text-align: center;
   font-size: 0.875rem;
   color: var(--color-gray-500);
+}
+
+/* Fund Transfer Styles */
+
+#fundTransfer-tab {
+  height: 100%;
+  overflow: hidden; /* Prevents the tab from scrolling */
+  display: flex;
+  flex-direction: column;
+}
+
+#fundTransfer-tab .tab-header {
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+#fundTransfer-tab .card {
+  flex: 1;
+  overflow: hidden; /* Prevents the card from scrolling */
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0; /* Remove bottom margin to prevent scrolling */
+}
+
+#fundTransfer-tab .card-header {
+  flex-shrink: 0; /* Prevent header from shrinking */
+}
+
+#fundTransfer-tab .card-body {
+  flex: 1;
+  overflow: hidden; /* Prevents the card body from scrolling */
+  display: flex;
+  flex-direction: column;
+}
+
+.fund-transfer-container {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  flex: 1;
+  overflow: hidden; /* Prevents container from scrolling */
+  display: flex;
+  flex-direction: column;
+}
+
+.fund-transfer-step {
+  background-color: white;
+  border-radius: var(--border-radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.3s ease;
+  border: 1px solid var(--color-gray-200);
+  transition: all 0.3s ease;
+  height: 100%; /* Take full height of the container */
+  overflow: hidden; /* Hide overflow */
+  display: flex;
+  flex-direction: column;
+}
+
+html[data-theme="dark"] .fund-transfer-step {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-400);
+}
+
+/* Fixed elements in each step */
+.fund-transfer-step .step-header,
+.fund-transfer-step .selected-agent,
+.fund-transfer-step .success-animation,
+.fund-transfer-step .fund-transfer-form:not(.scrollable),
+.fund-transfer-step > button {
+  flex-shrink: 0; /* These elements don't shrink */
+}
+
+/* Make scrollable content areas */
+.scrollable-content {
+  flex: 1;
+  overflow-y: auto; /* Add scroll only to content areas */
+  padding-right: 0.5rem; /* Add padding for scrollbar */
+}
+
+/* Style the scrollbar */
+.scrollable-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: var(--color-gray-100);
+  border-radius: var(--border-radius-full);
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: var(--border-radius-full);
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.step-header h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-left: 1rem;
+}
+
+.back-button {
+  background: var(--color-gray-100);
+  border: none;
+  border-radius: var(--border-radius-full);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: var(--color-gray-200);
+  transform: translateX(-2px);
+}
+
+.fund-transfer-form {
+  margin-bottom: 1.5rem;
+}
+
+.selected-agent {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-blue-50);
+  padding: 1rem;
+  border-radius: var(--border-radius-xl);
+  margin-bottom: 1.5rem;
+}
+
+html[data-theme="dark"] .selected-agent {
+  background-color: var(--color-blue-900);
+}
+
+.agent-avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    var(--color-blue-500),
+    var(--color-indigo-500)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin-right: 1rem;
+}
+
+.agent-details {
+  flex: 1;
+}
+
+.agent-name {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.agent-number {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.recent-agents {
+  margin-top: 2rem;
+}
+
+.recent-agents h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  margin-bottom: 1rem;
+}
+
+.recent-agents-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.recent-agent-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--color-gray-50);
+  border-radius: var(--border-radius-xl);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+html[data-theme="dark"] .recent-agent-item {
+  background-color: var(--color-gray-200);
+}
+
+.recent-agent-item:hover {
+  background-color: var(--color-blue-50);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+html[data-theme="dark"] .recent-agent-item:hover {
+  background-color: var(--color-blue-900);
+}
+
+.transaction-summary {
+  background-color: var(--color-gray-50);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+html[data-theme="dark"] .transaction-summary {
+  background-color: var(--color-gray-200);
+}
+
+.summary-details {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.success-animation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.success-animation svg {
+  color: var(--color-green-500);
+  animation: scaleUp 0.5s ease;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-message {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.success-message h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-green-600);
+  margin-bottom: 0.5rem;
+}
+
+.success-message p {
+  font-size: 1rem;
+  color: var(--color-gray-700);
+  margin-bottom: 0.5rem;
+}
+
+.transaction-id {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.transaction-receipt {
+  background-color: var(--color-gray-50);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px dashed var(--color-gray-300);
+}
+
+html[data-theme="dark"] .transaction-receipt {
+  background-color: var(--color-gray-200);
+  border-color: var(--color-gray-400);
+}
+
+.receipt-details {
+  display: grid;
+  gap: 1rem;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-gray-200);
+  padding-bottom: 0.75rem;
+}
+
+.receipt-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.receipt-label {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.receipt-value {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.receipt-value.success {
+  color: var(--color-green-600);
 }
 
 /* Dashboard Content */
@@ -3233,4 +3574,384 @@ html[data-theme="dark"] .rejection-form textarea {
 html[data-theme="dark"] .modal-footer {
   background-color: var(--color-gray-200);
   border-color: var(--color-gray-300);
+}
+
+/* Additional CSS for enhanced Send Money to Agent page */
+.fund-transfer-container {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.fund-transfer-step {
+  background-color: white;
+  border-radius: var(--border-radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  animation: fadeIn 0.3s ease;
+  border: 1px solid var(--color-gray-200);
+  transition: all 0.3s ease;
+}
+
+.fund-transfer-step:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-xl);
+}
+
+html[data-theme="dark"] .fund-transfer-step {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-400);
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-blue-100);
+  padding-bottom: 1rem;
+}
+
+html[data-theme="dark"] .step-header {
+  border-bottom-color: var(--color-blue-800);
+}
+
+.step-header h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-left: 1rem;
+  background: linear-gradient(
+    to right,
+    var(--color-blue-600),
+    var(--color-indigo-600)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.back-button {
+  background: var(--color-gray-100);
+  border: none;
+  border-radius: var(--border-radius-full);
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.back-button:hover {
+  background-color: var(--color-gray-200);
+  transform: translateX(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.fund-transfer-form {
+  margin-bottom: 1.5rem;
+}
+
+.fund-transfer-form .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.selected-agent {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    var(--color-blue-50),
+    var(--color-indigo-50)
+  );
+  padding: 1.25rem;
+  border-radius: var(--border-radius-xl);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-blue-100);
+  transition: all 0.3s ease;
+}
+
+.selected-agent:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+html[data-theme="dark"] .selected-agent {
+  background: linear-gradient(
+    to right,
+    var(--color-blue-900),
+    var(--color-indigo-900)
+  );
+  border-color: var(--color-blue-700);
+}
+
+.agent-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    to right,
+    var(--color-blue-500),
+    var(--color-indigo-500)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.5rem;
+  margin-right: 1.25rem;
+  box-shadow: var(--shadow-md);
+}
+
+.agent-details {
+  flex: 1;
+}
+
+.agent-name {
+  font-weight: 600;
+  color: var(--color-gray-900);
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.agent-number {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.recent-agents {
+  margin-top: 2rem;
+  background-color: var(--color-gray-50);
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  border: 1px dashed var(--color-gray-300);
+}
+
+html[data-theme="dark"] .recent-agents {
+  background-color: var(--color-gray-200);
+  border-color: var(--color-gray-400);
+}
+
+.recent-agents h4 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  margin-bottom: 1rem;
+  border-left: 3px solid var(--color-blue-500);
+  padding-left: 0.75rem;
+}
+
+.recent-agents-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.recent-agent-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  border-radius: var(--border-radius-xl);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-gray-200);
+}
+
+html[data-theme="dark"] .recent-agent-item {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-300);
+}
+
+.recent-agent-item:hover {
+  background-color: var(--color-blue-50);
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-blue-200);
+}
+
+html[data-theme="dark"] .recent-agent-item:hover {
+  background-color: var(--color-blue-900);
+  border-color: var(--color-blue-700);
+}
+
+.transaction-summary {
+  background: linear-gradient(
+    to right,
+    var(--color-gray-50),
+    var(--color-blue-50)
+  );
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-blue-100);
+}
+
+html[data-theme="dark"] .transaction-summary {
+  background: linear-gradient(
+    to right,
+    var(--color-gray-200),
+    var(--color-blue-900)
+  );
+  border-color: var(--color-blue-700);
+}
+
+.summary-details {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.summary-row:last-child {
+  border-bottom: none;
+}
+
+.summary-label {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.summary-value {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.success-animation {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.success-animation svg {
+  color: var(--color-green-500);
+  animation: scaleUp 0.5s ease;
+  filter: drop-shadow(0 4px 6px rgba(22, 163, 74, 0.2));
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-message {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.success-message h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-green-600);
+  margin-bottom: 0.75rem;
+}
+
+.success-message p {
+  font-size: 1rem;
+  color: var(--color-gray-700);
+  margin-bottom: 0.75rem;
+}
+
+.transaction-id {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  background: var(--color-gray-100);
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-full);
+  display: inline-block;
+}
+
+.transaction-receipt {
+  background-color: white;
+  border-radius: var(--border-radius-xl);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px dashed var(--color-green-300);
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.transaction-receipt::before {
+  content: "RECEIPT";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 4rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.03);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .transaction-receipt {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-green-700);
+}
+
+html[data-theme="dark"] .transaction-receipt::before {
+  color: rgba(255, 255, 255, 0.03);
+}
+
+.receipt-details {
+  display: grid;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-gray-200);
+  padding-bottom: 0.75rem;
+}
+
+.receipt-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.receipt-label {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+}
+
+.receipt-value {
+  font-weight: 600;
+  color: var(--color-gray-900);
+}
+
+.receipt-value.success {
+  color: var(--color-green-600);
+  background-color: var(--color-green-50);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--border-radius-full);
+}
+
+html[data-theme="dark"] .receipt-value.success {
+  background-color: var(--color-green-900);
+  color: var(--color-green-300);
 }

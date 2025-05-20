@@ -114,10 +114,10 @@ const mockPendingAgentRequests = [
 
 // Admin credentials
 const adminCredentials = [
-  { username: "admin1", password: "pass1234" },
-  { username: "admin2", password: "pass5678" },
-  { username: "admin3", password: "pass9012" },
-  { username: "admin4", password: "pass3456" },
+  { username: "Tanvir", password: "pass1111" },
+  { username: "Shawon", password: "pass2222" },
+  { username: "Ali", password: "pass3333" },
+  { username: "Nabila", password: "pass4444" },
 ];
 
 // Application state
@@ -143,8 +143,6 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeApp();
   setupEventListeners();
   renderContent();
-
-  // Auto-login removed as requested
 });
 
 function initializeApp() {
@@ -172,6 +170,193 @@ function setupEventListeners() {
 
   // Filters
   setupFilters();
+
+  // Fund Transfer Flow
+  setupFundTransferFlow();
+}
+
+function setupFundTransferFlow() {
+  // Step 1: Select agent
+  const proceedToAmountBtn = document.getElementById("proceed-to-amount");
+  const agentNumberInput = document.getElementById("agent-number");
+  const recentAgentItems = document.querySelectorAll(".recent-agent-item");
+
+  // Step 2: Enter amount
+  const backToAgentBtn = document.getElementById("back-to-agent");
+  const proceedToPinBtn = document.getElementById("proceed-to-pin");
+  const transferAmountInput = document.getElementById("transfer-amount");
+
+  // Step 3: Enter PIN
+  const backToAmountBtn = document.getElementById("back-to-amount");
+  const confirmTransferBtn = document.getElementById("confirm-transfer");
+  const transactionPinInput = document.getElementById("transaction-pin");
+
+  // Step 4: Success
+  const newTransferBtn = document.getElementById("new-transfer");
+
+  // Step 1 -> Step 2
+  if (proceedToAmountBtn) {
+    proceedToAmountBtn.addEventListener("click", function () {
+      const agentNumber = agentNumberInput.value.trim();
+      if (agentNumber) {
+        // Find agent by number
+        const agent = findAgentByNumber(agentNumber);
+        if (agent) {
+          moveToAmountStep(agent);
+        } else {
+          alert(
+            "Agent not found with this number. Please check and try again."
+          );
+        }
+      } else {
+        alert("Please enter an agent number");
+      }
+    });
+  }
+
+  // Recent agent selection
+  if (recentAgentItems) {
+    recentAgentItems.forEach((item) => {
+      item.addEventListener("click", function () {
+        const agentNumber = this.getAttribute("data-number");
+        const agent = findAgentByNumber(agentNumber);
+        if (agent) {
+          moveToAmountStep(agent);
+        }
+      });
+    });
+  }
+
+  // Step 2 -> Step 1 (Back)
+  if (backToAgentBtn) {
+    backToAgentBtn.addEventListener("click", function () {
+      document
+        .getElementById("agent-selection-step")
+        .classList.remove("hidden");
+      document.getElementById("amount-input-step").classList.add("hidden");
+      agentNumberInput.value = "";
+    });
+  }
+
+  // Step 2 -> Step 3
+  if (proceedToPinBtn) {
+    proceedToPinBtn.addEventListener("click", function () {
+      const amount = transferAmountInput.value.trim();
+      if (amount && !isNaN(amount) && Number(amount) > 0) {
+        moveToPinStep(amount);
+      } else {
+        alert("Please enter a valid amount");
+      }
+    });
+  }
+
+  // Step 3 -> Step 2 (Back)
+  if (backToAmountBtn) {
+    backToAmountBtn.addEventListener("click", function () {
+      document.getElementById("amount-input-step").classList.remove("hidden");
+      document.getElementById("pin-verification-step").classList.add("hidden");
+      transferAmountInput.value = "";
+    });
+  }
+
+  // Step 3 -> Step 4
+  if (confirmTransferBtn) {
+    confirmTransferBtn.addEventListener("click", function () {
+      const pin = transactionPinInput.value.trim();
+      if (pin && pin.length === 5 && !isNaN(pin)) {
+        moveToSuccessStep();
+      } else {
+        alert("Please enter a valid 5-digit PIN");
+      }
+    });
+  }
+
+  // Step 4 -> Step 1 (New Transfer)
+  if (newTransferBtn) {
+    newTransferBtn.addEventListener("click", function () {
+      resetTransferFlow();
+    });
+  }
+}
+
+function findAgentByNumber(number) {
+  const allAgents = [...agents, ...pendingAgentRequests];
+  return allAgents.find((agent) => agent.phone === number);
+}
+
+function moveToAmountStep(agent) {
+  // Hide agent selection, show amount input
+  document.getElementById("agent-selection-step").classList.add("hidden");
+  document.getElementById("amount-input-step").classList.remove("hidden");
+
+  // Update selected agent info
+  document.getElementById("display-agent-name").textContent = agent.name;
+  document.getElementById("display-agent-number").textContent = agent.phone;
+  document
+    .getElementById("selected-agent-info")
+    .querySelector(".agent-avatar").textContent = agent.name.charAt(0);
+}
+
+function moveToPinStep(amount) {
+  // Hide amount input, show PIN verification
+  document.getElementById("amount-input-step").classList.add("hidden");
+  document.getElementById("pin-verification-step").classList.remove("hidden");
+
+  // Format amount with comma and Taka symbol
+  const formattedAmount = "৳" + Number(amount).toLocaleString();
+
+  // Update transaction summary
+  document.getElementById("summary-amount").textContent = formattedAmount;
+  document.getElementById("summary-agent-name").textContent =
+    document.getElementById("display-agent-name").textContent;
+  document.getElementById("summary-agent-number").textContent =
+    document.getElementById("display-agent-number").textContent;
+}
+
+function moveToSuccessStep() {
+  // Hide PIN verification, show success screen
+  document.getElementById("pin-verification-step").classList.add("hidden");
+  document.getElementById("success-step").classList.remove("hidden");
+
+  // Generate random transaction ID
+  const transactionId = "TXN" + Math.floor(Math.random() * 1000000000);
+
+  // Get current date and time
+  const now = new Date();
+  const dateTime = now.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  // Update success screen with transaction details
+  document.getElementById("success-amount").textContent =
+    document.getElementById("summary-amount").textContent;
+  document.getElementById("success-agent").textContent =
+    document.getElementById("summary-agent-name").textContent;
+  document.getElementById("transaction-id").textContent = transactionId;
+  document.getElementById("transaction-date").textContent = dateTime;
+  document.getElementById("receipt-agent-name").textContent =
+    document.getElementById("summary-agent-name").textContent;
+  document.getElementById("receipt-agent-number").textContent =
+    document.getElementById("summary-agent-number").textContent;
+  document.getElementById("receipt-amount").textContent =
+    document.getElementById("summary-amount").textContent;
+}
+
+function resetTransferFlow() {
+  // Reset all form fields
+  document.getElementById("agent-number").value = "";
+  document.getElementById("transfer-amount").value = "";
+  document.getElementById("transaction-pin").value = "";
+
+  // Show first step, hide others
+  document.getElementById("agent-selection-step").classList.remove("hidden");
+  document.getElementById("amount-input-step").classList.add("hidden");
+  document.getElementById("pin-verification-step").classList.add("hidden");
+  document.getElementById("success-step").classList.add("hidden");
 }
 
 function setupFilters() {
@@ -194,12 +379,14 @@ function setupFilters() {
 }
 
 function filterUsersList(filter) {
-  const pendingUsersSection = document.getElementById("pending-users-section");
-  const approvedUsersSection = document.getElementById(
-    "approved-users-section"
+  const pendingUsersSection = document.querySelector(
+    ".card:has(#pending-users-list)"
   );
-  const rejectedUsersSection = document.getElementById(
-    "rejected-users-section"
+  const approvedUsersSection = document.querySelector(
+    ".card:has(#approved-users-list)"
+  );
+  const rejectedUsersSection = document.querySelector(
+    ".card:has(#rejected-users-list)"
   );
 
   // Reset all to visible first
@@ -228,10 +415,12 @@ function filterUsersList(filter) {
 }
 
 function filterAgentsList(filter) {
-  const pendingAgentsSection = document.getElementById(
-    "pending-agents-section"
+  const pendingAgentsSection = document.querySelector(
+    ".card:has(#agent-requests-table)"
   );
-  const activeAgentsSection = document.getElementById("active-agents-section");
+  const activeAgentsSection = document.querySelector(
+    ".card:has(#agents-table)"
+  );
 
   // Reset all to visible first
   if (pendingAgentsSection) pendingAgentsSection.classList.remove("hidden");
@@ -241,10 +430,7 @@ function filterAgentsList(filter) {
   switch (filter) {
     case "Active":
       if (pendingAgentsSection) pendingAgentsSection.classList.add("hidden");
-      break;
-    case "Inactive":
-      if (pendingAgentsSection) pendingAgentsSection.classList.add("hidden");
-      // Filter active agents table to only show inactive
+      // Filter active agents table to only show active
       const activeAgents = document.querySelectorAll(
         ".agent-table-status.active"
       );
@@ -252,11 +438,29 @@ function filterAgentsList(filter) {
         ".agent-table-status.inactive"
       );
 
-      activeAgents.forEach((agent) => {
+      inactiveAgents.forEach((agent) => {
         agent.closest("tr").classList.add("hidden");
       });
 
-      inactiveAgents.forEach((agent) => {
+      activeAgents.forEach((agent) => {
+        agent.closest("tr").classList.remove("hidden");
+      });
+      break;
+    case "Inactive":
+      if (pendingAgentsSection) pendingAgentsSection.classList.add("hidden");
+      // Filter active agents table to only show inactive
+      const activeAgents2 = document.querySelectorAll(
+        ".agent-table-status.active"
+      );
+      const inactiveAgents2 = document.querySelectorAll(
+        ".agent-table-status.inactive"
+      );
+
+      activeAgents2.forEach((agent) => {
+        agent.closest("tr").classList.add("hidden");
+      });
+
+      inactiveAgents2.forEach((agent) => {
         agent.closest("tr").classList.remove("hidden");
       });
       break;
@@ -622,9 +826,8 @@ function handleLogin(username, password) {
     );
 
     if (admin) {
-      // Save login state to localStorage for persistence
+      // Save only login state to localStorage, not username/password
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", username);
 
       // Update sidebar username
       document.getElementById("sidebar-username").textContent = username;
@@ -645,50 +848,37 @@ function handleLogin(username, password) {
 function handleLogout() {
   // Clear login state
   localStorage.removeItem("isLoggedIn");
-  localStorage.removeItem("username");
 
-  // Redirect to index.html
-  window.location.href = "index.html";
+  // Show login form, hide dashboard
+  document.getElementById("login-container").classList.remove("hidden");
+  document.getElementById("admin-container").classList.add("hidden");
+
+  // Clear login form inputs
+  document.getElementById("username").value = "";
+  document.getElementById("password").value = "";
 }
 
 function checkLoginState() {
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const username = localStorage.getItem("username");
 
-  if (isLoggedIn && username) {
+  if (isLoggedIn) {
     // User is logged in, show dashboard
     document.getElementById("login-container").classList.add("hidden");
     document.getElementById("admin-container").classList.remove("hidden");
 
-    // Update sidebar username
-    document.getElementById("sidebar-username").textContent = username;
-    document.getElementById("user-initial").textContent = username
-      .charAt(0)
-      .toUpperCase();
+    // Set initial username for sidebar - using Tanvir as default
+    document.getElementById("sidebar-username").textContent = "Tanvir";
+    document.getElementById("user-initial").textContent = "A";
   } else {
     // User is not logged in, show login form
     document.getElementById("login-container").classList.remove("hidden");
     document.getElementById("admin-container").classList.add("hidden");
+
+    // Clear login form inputs
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
   }
 }
-
-// Initialize app with login state check
-document.addEventListener("DOMContentLoaded", function () {
-  // Set theme from localStorage if available
-  const currentTheme = localStorage.getItem("theme") || "light";
-  if (currentTheme) {
-    document.documentElement.setAttribute("data-theme", currentTheme);
-    updateThemeUI(currentTheme);
-  }
-
-  // Check login state first
-  checkLoginState();
-
-  // Then initialize the rest of the app
-  initializeApp();
-  setupEventListeners();
-  renderContent();
-});
 
 function togglePasswordVisibility(passwordInput, toggleButton) {
   const type =
@@ -769,7 +959,12 @@ function setActiveTab(tab) {
   // Update page title
   const pageTitle = document.getElementById("page-title");
   if (pageTitle) {
-    pageTitle.textContent = tab.charAt(0).toUpperCase() + tab.slice(1);
+    const formattedTitle = tab
+      .replace(/([A-Z])/g, " $1")
+      .replace(/^./, function (str) {
+        return str.toUpperCase();
+      });
+    pageTitle.textContent = formattedTitle;
   }
 
   activeTab = tab;
@@ -1501,7 +1696,6 @@ function renderSearchResultsGroup(title, items, type) {
   return html;
 }
 
-// Event Listener Helper Functions
 function addDashboardEventListeners() {
   // User view buttons
   document.querySelectorAll('[data-action="view-user"]').forEach((button) => {
@@ -1709,3 +1903,14 @@ function addSearchResultEventListeners(searchResults) {
     });
   });
 }
+
+// Initialize the application
+document.addEventListener("DOMContentLoaded", function () {
+  // First check login state
+  checkLoginState();
+
+  // Then initialize the app components
+  initializeApp();
+  setupEventListeners();
+  renderContent();
+});
